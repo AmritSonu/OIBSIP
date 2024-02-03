@@ -1,0 +1,36 @@
+
+Choose Any Pizza Base from 5 options :- 
+------------------------------------
+1.)Neapolitan: Thin, soft crust from Naples, Italy, with a chewy texture, emphasizing simplicity and quality ingredients.
+
+2.)New York Style:  Iconic for large, foldable slices, New York-style pizza offers a medium-thick crust with perfect crispiness and chewiness.
+
+3.)Thin Crust: Delicate and crispy, thin crust pizzas come in various regional styles, offering a light base for diverse toppings.
+
+4.) Deep Dish (Chicago Style): Chicago-style deep-dish pizza features a thick, buttery crust, creating a hearty and filling dish with generous layers.
+
+5.)Sicilian: Sicilian pizza is known for its square shape and thick, spongy crust, providing a substantial base for toppings.
+
+
+
+Sauce Types :- 
+------------
+1.)Classic Tomato Sauce
+2.)Pesto Sauce
+3.)Alfredo Sauce
+4.)Grill Sauce
+5.)White Sauce (Garlic and Olive Oil)
+
+
+Choice a Cheese :-
+----------------
+* Mozzarella cheese
+* Cheddar cheese
+* Parmesan cheese 
+
+
+
+https://chat.openai.com/c/18893fa7-ee3c-4eb0-a139-899e21e69bb0
+
+
+
