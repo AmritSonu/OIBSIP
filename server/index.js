@@ -4,11 +4,12 @@ import { pizzaRouter } from "./Routes/allPizzasRoutes.js";
 import cors from "cors";
 const app = express();
 const port = 3000;
-
+// Frontend URl = http://localhost:5173
+// Frontend Deployed URl = https://pizza-psi-two.vercel.app/demo
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: ["https://tasty-pizza-lyart.vercel.app"],
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true,
   })

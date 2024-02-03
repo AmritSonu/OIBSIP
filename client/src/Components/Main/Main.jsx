@@ -4,7 +4,9 @@ function Main() {
   const [data, setData] = useState("");
   const getDataFromServer = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/demo`);
+      // local backend URl = http://localhost:3000/demo
+      // backend URL = https://pizza-psi-two.vercel.app/demo
+      const res = await axios.get(`https://pizza-psi-two.vercel.app/demo`);
       setData(res.data);
       console.log(res);
     } catch (err) {
