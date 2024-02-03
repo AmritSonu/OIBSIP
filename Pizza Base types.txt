@@ -1,18 +1,51 @@
 
-Choose Any Pizza Base from 5 options :- 
+ Select your size & crust :- 
 ------------------------------------
-1.)Neapolitan: Thin, soft crust from Naples, Italy, with a chewy texture, emphasizing simplicity and quality ingredients.
+Personal (Serves 1-2) 
+           1. Soft Pan 
+            Crunchy on the outside, soft & fluffy on the inside - ₹299
 
-2.)New York Style:  Iconic for large, foldable slices, New York-style pizza offers a medium-thick crust with perfect crispiness and chewiness.
+            2. Stuffed Crust - Cheese Maxx (Serves 2-3)
+            Cheese lovers paradise! Crust stuffed with cheese & creamy Peruvian sauce - ₹399 
+           
+            3. Sausage Crust:
+            Flavorful sausage-infused crust, bursting with taste, creates a delightful blend of meatiness and perfect dough - ₹499
 
-3.)Thin Crust: Delicate and crispy, thin crust pizzas come in various regional styles, offering a light base for diverse toppings.
+            4. Crispy Thin Crust:
+            Thin and delicate, our crispy crust offers a light crunch, enhancing the pizza with a focus on rich topping flavors ₹299
 
-4.) Deep Dish (Chicago Style): Chicago-style deep-dish pizza features a thick, buttery crust, creating a hearty and filling dish with generous layers.
+            5. Sausage and Cheese Stuffed Crust:
+            Dive into a cheesy paradise with our stuffed crust, generously filled with sausage and creamy cheese, delivering a rich, delightful taste ₹499
 
-5.)Sicilian: Sicilian pizza is known for its square shape and thick, spongy crust, providing a substantial base for toppings.
+------------------
+Medium (Serves 2-3) 
+           1. Soft Pan 
+            Crunchy on the outside, soft & fluffy on the inside - ₹299
+
+            2. Stuffed Crust - Cheese Maxx (Serves 2-3)
+            Cheese lovers paradise! Crust stuffed with cheese & creamy Peruvian sauce - ₹399 
+           
+            3. Sausage Crust:
+            Flavorful sausage-infused crust, bursting with taste, creates a delightful blend of meatiness and perfect dough - ₹349
+
+            4. Crispy Thin Crust:
+            Thin and delicate, our crispy crust offers a light crunch, enhancing the pizza with a focus on rich topping flavors ₹399
+
+            5. Sausage and Cheese Stuffed Crust:
+            Dive into a cheesy paradise with our stuffed crust, generously filled with sausage and creamy cheese, delivering a rich, delightful taste ₹419
 
 
+*********************************************************
+(if you remove one topping from orignal pizza then you also add new Veggie instead of this topping.)
 
+---------------
+Choice a Cheese :-
+---------------
+* Mozzarella cheese
+* Cheddar cheese
+* Parmesan cheese 
+
+--------------
 Sauce Types :- 
 ------------
 1.)Classic Tomato Sauce
@@ -22,12 +55,30 @@ Sauce Types :-
 5.)White Sauce (Garlic and Olive Oil)
 
 
-Choice a Cheese :-
-----------------
-* Mozzarella cheese
-* Cheddar cheese
-* Parmesan cheese 
+Change your toppings:
+   (warning :- You can only remove 1 topping from this pizza recipe.) 
 
+-------------------------------
+   (warning :- You can only add 2 Veggies out of All Optional Veggies.)
+
+-------------------- 
+Add something extra:
+--------------------
+Black Olives
+Jalapeno
+Sweet Corn
+MushroomBlack Olives - ₹40
+Green Capsicum -₹40
+Herbed Veggies -₹40
+Jalapeno - ₹40
+Spiced Paneer
+Mushroom
+Onion
+Red Capsicum
+Red Paprika
+Sweet Corn
+Tomato
+Baby Corn
 
 
 https://chat.openai.com/c/18893fa7-ee3c-4eb0-a139-899e21e69bb0

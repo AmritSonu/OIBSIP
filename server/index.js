@@ -9,7 +9,7 @@ const port = 3000;
 app.use(express.json());
 app.use(
   cors({
-    origin: ["https://tasty-pizza-lyart.vercel.app"],
+    origin: ["https://pizza-psi-two.vercel.app/demo"],
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true,
   })
