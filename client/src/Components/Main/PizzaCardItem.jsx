@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 const data = {
   imageSrc:
     "https://api.pizzahut.io/v1/content/en-in/in-1/images/pizza/margherita.90f9451fd66871fb6f9cf7d506053f18.1.jpg?width=450",
@@ -11,9 +12,12 @@ const data = {
   ],
   price: 542,
 };
-function PizzaCardItem() {
+function PizzaCardItem({ handleButtonClick }) {
   return (
-    <div className="list-item bg-white border rounded-md overflow-hidden hover:cursor-pointer">
+    <div
+      className="list-item bg-white border rounded-md overflow-hidden hover:cursor-pointer"
+      onClick={handleButtonClick}
+    >
       <div className="list-item__image">
         <img src={data.imageSrc} className="block w-full" alt="image" />
       </div>
@@ -57,4 +61,7 @@ function PizzaCardItem() {
     </div>
   );
 }
+PizzaCardItem.propTypes = {
+  handleButtonClick: PropTypes.func.isRequired,
+};
 export { PizzaCardItem };

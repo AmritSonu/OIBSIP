@@ -3,7 +3,7 @@ import { Logo } from "./Logo";
 
 function NavBar() {
   return (
-    <nav className="bg-white p-4">
+    <nav className="bg-white py-4 px-10">
       <div className="container mx-auto flex items-center justify-between">
         <Logo />
 
@@ -17,6 +17,16 @@ function NavBar() {
             to="/SignUp"
           >
             SignUp
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              isActive
+                ? "text-mainColor-400 transition duration-300 font-bold"
+                : "border-b-2 border-white font-semibold"
+            }
+            to="/cart"
+          >
+            Cart
           </NavLink>
         </div>
       </div>

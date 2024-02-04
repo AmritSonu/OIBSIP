@@ -11,8 +11,7 @@ function App() {
       <Routes>
         {/* route like list... */}
         <Route path="/" element={<Layout />}>
-          <Route index element={<MainContainer />} />
-
+          <Route path="/pizzas/:id?" element={<MainContainer />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
