@@ -14,27 +14,26 @@ const data = {
 };
 function PizzaCardItem({ handleButtonClick }) {
   return (
-    <div
-      className="list-item bg-white border rounded-md overflow-hidden hover:cursor-pointer"
-      onClick={handleButtonClick}
-    >
-      <div className="list-item__image">
-        <img src={data.imageSrc} className="block w-full" alt="image" />
-      </div>
-      {/* <button className="absolute right-0 top-0 p-5 mt-2 mr-2 w-auto rounded-full text-11 border-grey-lighter text-black bg-white opacity-90 hover:opacity-100">
+    <div className="list-item bg-white border rounded-md overflow-hidden hover:cursor-pointer">
+      <div onClick={handleButtonClick}>
+        <div className="list-item__image">
+          <img src={data.imageSrc} className="block w-full" alt="image" />
+        </div>
+        {/* <button className="absolute right-0 top-0 p-5 mt-2 mr-2 w-auto rounded-full text-11 border-grey-lighter text-black bg-white opacity-90 hover:opacity-100">
           <span>Customize</span>
         </button> */}
-      <div className="typography-4 list-item__name flex-1 px-4 pt-4">
-        {data.name}
-        <span className="ml-2 inline-flex align-middle">
-          <span className="flex font-light mr-2">
-            <i className="icon-veg-india style-Irxjn"></i>
+        <div className="typography-4 list-item__name flex-1 px-4 pt-4">
+          {data.name}
+          <span className="ml-2 inline-flex align-middle">
+            <span className="flex font-light mr-2">
+              <i className="icon-veg-india style-Irxjn"></i>
+            </span>
           </span>
-        </span>
+        </div>
+        <p className="typography-6 list-item__desc flex-1 px-4">
+          {data.description}
+        </p>
       </div>
-      <p className="typography-6 list-item__desc flex-1 px-4">
-        {data.description}
-      </p>
       <div className="mt-auto">
         <div className="m-4">
           <div className="mb-4 relative">
