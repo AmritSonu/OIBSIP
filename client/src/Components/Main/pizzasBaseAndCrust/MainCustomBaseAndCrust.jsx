@@ -1,6 +1,6 @@
-import { Crusts } from "./CrustAndBase";
+import { BaseAndCrusts } from "./BaseAndCrusts";
 
-function PizzaCustomBox() {
+function PizzaCustomBaseAndCrust() {
   return (
     <div className="overflow-auto h-52">
       <h3 className="text-lg font-bold mb-2">Select your size & crust:</h3>
@@ -12,10 +12,9 @@ function PizzaCustomBox() {
           </p>
           <div className="border h-[3px] max-w-9 bg-gray-500"></div>
         </div>
-        <Crusts />
+        <BaseAndCrusts />
       </div>
     </div>
   );
 }
-
-export default PizzaCustomBox;
+export { PizzaCustomBaseAndCrust };

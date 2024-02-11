@@ -19,9 +19,7 @@ function PizzaCardItem({ handleButtonClick }) {
         <div className="list-item__image">
           <img src={data.imageSrc} className="block w-full" alt="image" />
         </div>
-        {/* <button className="absolute right-0 top-0 p-5 mt-2 mr-2 w-auto rounded-full text-11 border-grey-lighter text-black bg-white opacity-90 hover:opacity-100">
-          <span>Customize</span>
-        </button> */}
+
         <div className="typography-4 list-item__name flex-1 px-4 pt-4">
           {data.name}
           <span className="ml-2 inline-flex align-middle">

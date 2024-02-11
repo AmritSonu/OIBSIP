@@ -1,13 +1,16 @@
-// PizzaInfoPageDialogBox.js
 import PropTypes from "prop-types";
-// import PizzaCustomBox from "./PizzaCustomization/PizzaCustomBox";
-import { PizzaCustomItems } from "./PizzaCustomization/PizzaCustomItems";
+// import { PizzaCustomBaseAndCrust } from "./pizzasBaseAndCrust/MainCustomBaseAndCrust";
+import { MainPizzasIngredients } from "./pizzasIngredients/MainPizzasIngredients";
 
+const selectedPizzaDetails = {
+  pizzaName: "Schezwan Margherita",
+  description:
+    "Your very own Margherita, now with a spicy twist! Loaded with our signature spicy schezwan sauce & 100% mozzarella cheese.",
+};
 const PizzaInfoPageDialogBox = ({ isOpen, handleClose }) => {
   if (!isOpen) {
     return null;
   }
-
   return (
     <div className="fixed inset-0 z-50 overflow-auto bg-gray-800 bg-opacity-50 flex justify-center items-center">
       <div className="bg-white  rounded-lg shadow-md max-w-4xl relative">
@@ -39,13 +42,13 @@ const PizzaInfoPageDialogBox = ({ isOpen, handleClose }) => {
               className="w-full h-full object-cover"
             />
           </div>
-
           {/* Right side with pizza information */}
           <div className="overflow-auto p-3 col-span-2 py-10 ">
-            <h2 className="text-lg font-bold mb-2">Schezwan Margherita</h2>
+            <h2 className="text-lg font-bold mb-2">
+              {selectedPizzaDetails.pizzaName}
+            </h2>
             <p className="text-gray-700 mb-4">
-              Your very own Margherita, now with a spicy twist! Loaded with our
-              signature spicy schezwan sauce & 100% mozzarella cheese.
+              {selectedPizzaDetails.description}
             </p>
 
             <div className="mb-4 overflow-auto">
@@ -62,8 +65,8 @@ const PizzaInfoPageDialogBox = ({ isOpen, handleClose }) => {
               <span className="font-light ml-2">Vegetarian</span>
             </div>
 
-            {/* <PizzaCustomBox /> */}
-            <PizzaCustomItems />
+            {/* <PizzaCustomBaseAndCrust /> */}
+            <MainPizzasIngredients />
           </div>
         </div>
       </div>

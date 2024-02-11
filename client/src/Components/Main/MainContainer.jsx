@@ -1,17 +1,18 @@
+import { Outlet } from "react-router-dom";
 import { ItemsPage } from "./ItemsPage";
-import { PizzaSelectorViewBar } from "./PizzaSelectorViewBar";
+// import { PizzaSelectorBasket } from "./PizzaSelectorBasket";
 
 // local backend URl = http://localhost:3000/demo
 // backend URL = https://pizza-psi-two.vercel.app/demo
 
 function MainContainer() {
   return (
-    <div className="p-5 ">
-      
+    <div className="p-5">
       {/* <HeroPage/> */}
 
       <ItemsPage />
-      <PizzaSelectorViewBar />
+      {/* <PizzaSelectorBasket /> */}
+      <Outlet />
     </div>
   );
 }

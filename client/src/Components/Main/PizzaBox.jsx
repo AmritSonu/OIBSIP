@@ -1,17 +1,14 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PizzaCardItem } from "./PizzaCardItem";
-import { PizzaInfoPageDialogBox } from "./PizzaInfoShow";
-import { useState } from "react";
+import { PizzaInfoPageDialogBox } from "./PizzaInfoPageDialogBox";
 
 function PizzaBox() {
-  const navigate = useNavigate(); // Import the useNavigate hook
+  const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleButtonClick = () => {
     setIsDialogOpen(true);
-    console.log(true);
-
-    // Change the route path when opening the dialog box
     navigate("/pizzas??kind=pizza_name");
   };
 
@@ -19,7 +16,6 @@ function PizzaBox() {
     setIsDialogOpen(false);
     navigate(-1);
   };
-
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

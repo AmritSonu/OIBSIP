@@ -1,4 +1,3 @@
-// Define the pizza crust data
 const crustData = [
   {
     name: "Pan",
@@ -40,11 +39,9 @@ const crustData = [
       "Dive into a cheesy paradise with our stuffed crust, generously filled with sausage and creamy cheese, delivering a rich.",
     price: 379,
   },
-  // Add more crust data as needed
 ];
 
-// Render the pizza crusts in JSX
-const Crusts = () => {
+const BaseAndCrusts = () => {
   return (
     <>
       {crustData.map((crust, index) => (
@@ -74,4 +71,4 @@ const Crusts = () => {
   );
 };
 
-export { Crusts };
+export { BaseAndCrusts };
