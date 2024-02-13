@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PizzaCardItem } from "./PizzaCardItem";
-import { PizzaInfoPageDialogBox } from "./PizzaInfoPageDialogBox";
+import { CustomDialogBox } from "../pizzaCustomDialogBox/CustomDialogBox";
 
 function PizzaBox() {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ function PizzaBox() {
         <PizzaCardItem handleButtonClick={handleButtonClick} />
 
         <div>
-          <PizzaInfoPageDialogBox
+          <CustomDialogBox
             isOpen={isDialogOpen}
             handleClose={handleCloseDialog}
           />

@@ -1,13 +1,13 @@
 import PropTypes from "prop-types";
 // import { PizzaCustomBaseAndCrust } from "./pizzasBaseAndCrust/MainCustomBaseAndCrust";
-import { MainPizzasIngredients } from "./pizzasIngredients/MainPizzasIngredients";
+import { MainPizzasIngredients } from "../pizzasIngredients/MainPizzasIngredients";
 
 const selectedPizzaDetails = {
   pizzaName: "Schezwan Margherita",
   description:
     "Your very own Margherita, now with a spicy twist! Loaded with our signature spicy schezwan sauce & 100% mozzarella cheese.",
 };
-const PizzaInfoPageDialogBox = ({ isOpen, handleClose }) => {
+const CustomDialogBox = ({ isOpen, handleClose }) => {
   if (!isOpen) {
     return null;
   }
@@ -74,9 +74,9 @@ const PizzaInfoPageDialogBox = ({ isOpen, handleClose }) => {
   );
 };
 
-PizzaInfoPageDialogBox.propTypes = {
+CustomDialogBox.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
 };
 
-export { PizzaInfoPageDialogBox };
+export { CustomDialogBox };

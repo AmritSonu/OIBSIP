@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { ItemsPage } from "./ItemsPage";
+import { ItemsPage } from "./pizzaCardItems/ItemsPage";
 // import { PizzaSelectorBasket } from "./PizzaSelectorBasket";
 
 // local backend URl = http://localhost:3000/demo
