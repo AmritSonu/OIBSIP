@@ -1,6 +1,6 @@
 import express from "express";
 import { connectDB } from "./db.js";
-import { pizzaRouter } from "./Routes/allPizzasRoutes.js";
+import { pizzaRouter } from "./Routes/pizzaRoutes.js";
 import cors from "cors";
 const app = express();
 const port = 3000;
