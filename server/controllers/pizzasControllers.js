@@ -1,69 +1,79 @@
-import { PizzaCustomization } from "../Models/PizzaModel.js";
-import { Topping } from "../Models/toppings.js";
-// Create a new topping
-const creatToppings = async (req, res) => {
-  try {
-    const { name } = req.body;
-    // Validate if the name is provided
-    if (!name) {
-      return res.status(400).json({ error: "Topping name is required" });
-    }
-    // Check if the topping with the same name already exists
-    const existingTopping = await Topping.findOne({ name });
-    if (existingTopping) {
-      return res
-        .status(400)
-        .json({ error: "Topping with this name already exists" });
-    }
-    // Create a new topping
-    const newTopping = await Topping.create({ name });
-    res.status(201).json(newTopping);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-const createCustomizedPizza = async (req, res) => {
-  try {
-    const { pizzaName, base, sauce, cheese, toppings } = req.body;
+import { Pizza } from "../Models/PizzaModel.js";
 
-    // Validate if the required fields are provided
-    if (!pizzaName || !base || !sauce || !cheese || !toppings) {
-      return res
-        .status(400)
-        .json({ error: "All fields are required for pizza customization" });
+const createPizza = async (req, res) => {
+  try {
+    const { name, base_id, sauce_id, cheese_id, topping_id } = req.body;
+    if (
+      // !order_id ||
+      !name ||
+      !base_id ||
+      !sauce_id ||
+      !cheese_id ||
+      !topping_id
+    ) {
+      return res.status(400).json({ error: "All fields are required" });
     }
-    const newPizzaCustomization = await PizzaCustomization.create({
-      pizzaName,
-      base,
-      sauce,
-      cheese,
-      toppings,
+    // Create a new pizza
+    const newPizza = await Pizza.create({
+      // order_id,
+      name,
+      base_id,
+      sauce_id,
+      cheese_id,
+      topping_id,
     });
-    res.status(201).json(newPizzaCustomization);
+    res.status(201).json(newPizza);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const getPizzas = async (req, res) => {
+  try {
+    // Fetch all pizzas
+    const pizzas = await Pizza.find().populate(
+      "base_id sauce_id cheese_id topping_id"
+    );
+    res.status(200).json(pizzas);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-// Get details of a specific pizza customization by ID
-const getCustomizedPizza = async (req, res) => {
+
+const getSinglePizza = async (req, res) => {
   try {
-    const pizzaCustomizationId = req.params.id;
-    // Fetch the pizza customization from the database
-    const pizzaCustomization = await PizzaCustomization.findById(
-      pizzaCustomizationId
-    ).populate("toppings");
-    // Check if the pizza customization exists
-    if (!pizzaCustomization) {
-      return res.status(404).json({ error: "Pizza customization not found" });
+    const pizzaId = req.params.id;
+    // Fetch the pizza by ID
+    const pizza = await Pizza.findById(pizzaId).populate(
+      "base_id sauce_id cheese_id topping_id"
+    );
+
+    if (!pizza) {
+      return res.status(404).json({ error: "Pizza not found" });
     }
 
-    res.status(200).json(pizzaCustomization);
+    res.status(200).json(pizza);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+const deletePizza = async (req, res) => {
+  try {
+    const { pizzaId } = req.params;
+    // Check if the sauce type exists
+    const PizzaToDelete = await Pizza.findById(pizzaId);
+    if (!PizzaToDelete) {
+      return res.status(404).json({ error: "This Pizza Type not found" });
+    }
+    // Delete the sauce type
+    await Pizza.findByIdAndDelete(pizzaId);
 
-export { creatToppings, createCustomizedPizza, getCustomizedPizza };
+    res.status(200).json({ message: "Pizza deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+export { createPizza, getPizzas, getSinglePizza, deletePizza };

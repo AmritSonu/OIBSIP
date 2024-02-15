@@ -1,7 +1,11 @@
+import cors from "cors";
 import express from "express";
 import { connectDB } from "./db.js";
 import { pizzaRouter } from "./Routes/pizzaRoutes.js";
-import cors from "cors";
+import { toppingsRouter } from "./Routes/toppingsRoutes.js";
+import { baseTypesRouter } from "./Routes/baseTypeRoutes.js";
+import { cheeseTypesRouter } from "./Routes/cheeseTypeRoutes.js";
+import { sauceTypesRouter } from "./Routes/sauceTypeRoutes.js";
 const app = express();
 const port = 3000;
 // Frontend URl = http://localhost:5173
@@ -15,10 +19,16 @@ app.use(express.json());
 //   })
 // );
 app.use(cors());
+
 app.use("/app", pizzaRouter);
-app.use("/demo", (req, res) => {
-  res.send("hello From Server...");
-});
+app.use(
+  "/app/ingredients",
+  toppingsRouter,
+  baseTypesRouter,
+  cheeseTypesRouter,
+  sauceTypesRouter
+);
+
 connectDB();
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);

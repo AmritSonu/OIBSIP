@@ -1,10 +1,8 @@
-
  Select your size & crust :- 
 ------------------------------------
 Personal (Serves 1-2) 
            1. Soft Pan 
             Crunchy on the outside, soft & fluffy on the inside - ₹299
-
             2. Stuffed Crust - Cheese Maxx (Serves 2-3)
             Cheese lovers paradise! Crust stuffed with cheese & creamy Peruvian sauce - ₹399 
            
@@ -33,7 +31,6 @@ Medium (Serves 2-3)
 
             5. Sausage and Cheese Stuffed Crust:
             Dive into a cheesy paradise with our stuffed crust, generously filled with sausage and creamy cheese, delivering a rich, delightful taste ₹419
-
 
 *********************************************************
 (if you remove one topping from orignal pizza then you also add new Veggie instead of this topping.)
@@ -107,9 +104,6 @@ Order Status Update:
 
 After the pizza is in the oven or out for delivery, admins update the status in their dashboard. This change is then reflected in real-time on the user's dashboard.
 By implementing these features, you're creating a smooth process for admins to manage ingredients, stay on top of orders, and update the status for users to track. It's a user-friendly and efficient system for both administrators and customers.
-
-
-
 
 
 // User Schema

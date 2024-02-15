@@ -1,26 +1,33 @@
 import mongoose from "mongoose";
-// Pizza Schema
 const pizzaSchema = new mongoose.Schema({
-  orderID: { type: mongoose.Schema.Types.ObjectId, ref: "Order" },
-  pizzaName: String, // Adding the missing pizzaName field
-  base: String,
-  sauce: String,
-  cheese: String,
-  status: String,
-  toppings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Topping" }],
+  // order_id: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "Order",
+  //   required: true,
+  // },
+  name: { type: String, required: true },
+  base_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "BaseTypes",
+    required: true,
+  },
+  sauce_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "SauceTypes",
+    required: true,
+  },
+  cheese_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "CheeseTypes",
+    required: true,
+  },
+  topping_id: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Toppings",
+      required: true,
+    },
+  ],
 });
-// Pizza Customization Schema
-const pizzaCustomizationSchema = new mongoose.Schema({
-  pizzaName: String,
-  base: String,
-  sauce: String,
-  cheese: String,
-  toppings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Topping" }],
-});
-
-const PizzaModel = mongoose.model("Pizzas", pizzaSchema);
-const PizzaCustomization = mongoose.model(
-  "PizzaCustomization",
-  pizzaCustomizationSchema
-);
-export { PizzaModel, PizzaCustomization };
+const Pizza = mongoose.model("Pizza", pizzaSchema);
+export { Pizza };
