@@ -6,6 +6,7 @@ import { toppingsRouter } from "./Routes/toppingsRoutes.js";
 import { baseTypesRouter } from "./Routes/baseTypeRoutes.js";
 import { cheeseTypesRouter } from "./Routes/cheeseTypeRoutes.js";
 import { sauceTypesRouter } from "./Routes/sauceTypeRoutes.js";
+import { orderRouter } from "./Routes/orderRoutes.js";
 const app = express();
 const port = 3000;
 // Frontend URl = http://localhost:5173
@@ -20,7 +21,7 @@ app.use(express.json());
 // );
 app.use(cors());
 
-app.use("/app", pizzaRouter);
+app.use("/app", pizzaRouter, orderRouter);
 app.use(
   "/app/ingredients",
   toppingsRouter,

@@ -6,6 +6,9 @@ const pizzaSchema = new mongoose.Schema({
   //   required: true,
   // },
   name: { type: String, required: true },
+  description: { type: String, required: true },
+  pizza_URL: { type: String, require: true },
+  category: { type: String, require: true },
   base_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "BaseTypes",
@@ -28,6 +31,7 @@ const pizzaSchema = new mongoose.Schema({
       required: true,
     },
   ],
+  price: { type: Number, required: true },
 });
 const Pizza = mongoose.model("Pizza", pizzaSchema);
 export { Pizza };

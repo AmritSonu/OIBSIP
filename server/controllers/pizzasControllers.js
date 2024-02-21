@@ -2,25 +2,42 @@ import { Pizza } from "../Models/PizzaModel.js";
 
 const createPizza = async (req, res) => {
   try {
-    const { name, base_id, sauce_id, cheese_id, topping_id } = req.body;
+    const {
+      name,
+      description,
+      pizza_URL,
+      category,
+      base_id,
+      sauce_id,
+      cheese_id,
+      topping_id,
+      price,
+    } = req.body;
     if (
       // !order_id ||
       !name ||
+      !description ||
+      !pizza_URL ||
+      !category ||
       !base_id ||
       !sauce_id ||
       !cheese_id ||
-      !topping_id
+      !topping_id ||
+      !price
     ) {
       return res.status(400).json({ error: "All fields are required" });
     }
     // Create a new pizza
     const newPizza = await Pizza.create({
-      // order_id,
       name,
+      description,
+      pizza_URL,
+      category,
       base_id,
       sauce_id,
       cheese_id,
       topping_id,
+      price,
     });
     res.status(201).json(newPizza);
   } catch (error) {
@@ -34,7 +51,10 @@ const getPizzas = async (req, res) => {
     const pizzas = await Pizza.find().populate(
       "base_id sauce_id cheese_id topping_id"
     );
-    res.status(200).json(pizzas);
+    res.status(200).json({
+      totalPizzas: pizzas.length,
+      pizzas,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

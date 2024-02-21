@@ -1,6 +1,9 @@
+// import { useGetAllPizzasQuery } from "../../../apis/pizzasAPI";
+// import { useGetPizzasQuery } from "../../../apis/pizzasAPI";
 import { PizzaBox } from "./PizzaBox";
 
 function ItemsPage() {
+ 
   return (
     <>
       <div className="flex items-center gap-6 justify-center my-4">

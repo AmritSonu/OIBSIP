@@ -191,7 +191,7 @@ function Ingredients() {
             <thead>
               <tr>
                 <th className="py-2 px-4 border-b">No.</th>
-                {/* <th className="py-2 px-4 border-b">ID</th> */}
+                <th className="py-2 px-4 border-b">ID</th>
                 <th className="py-2 px-4 border-b">Name</th>
                 <th className="py-2 px-4 border-b">Quantity Available</th>
                 <th className="py-2 px-4 border-b">Price</th>
@@ -204,9 +204,9 @@ function Ingredients() {
                   <td className="py-2 px-4 border-b font-semibold">
                     {index + 1}
                   </td>
-                  {/* <td className="py-2 px-4 border-b font-semibold">
+                  <td className="py-2 px-4 border-b font-semibold">
                     {item._id}
-                  </td> */}
+                  </td>
                   <td className="py-2 px-4 border-b">{item.name}</td>
                   <td className="py-2 px-4 border-b">
                     {item.quantity_available}
