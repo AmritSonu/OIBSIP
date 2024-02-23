@@ -20,6 +20,7 @@ function Ingredients() {
     data: baseTypes,
     isLoading: isBaseLoading,
     refetch: refetchBaseTypes,
+    error,
   } = useGetAllBaseTypeQuery();
   const [deleteBaseType] = useDeleteBaseTypeMutation();
   const [createBaseType] = useCreateBaseTypeMutation(); // Added
@@ -55,22 +56,32 @@ function Ingredients() {
     name: "",
     quantity_available: 0,
     price: 0,
+    description: "",
   });
   const [newSauceType, setNewSauceType] = useState({
     name: "",
     quantity_available: 0,
     price: 0,
+    description: "",
   });
   const [newToppingType, setNewToppingType] = useState({
     name: "",
     quantity_available: 0,
     price: 0,
+    description: "",
   });
   const [newCheeseType, setNewCheeseType] = useState({
     name: "",
     quantity_available: 0,
     price: 0,
+    description: "",
   });
+
+  //
+  if (error) {
+    console.log(error);
+  }
+  //
 
   const handleDelete = async (id, deleteMutation, refetchMutation) => {
     try {
@@ -167,6 +178,29 @@ function Ingredients() {
               }
             />
           </div>
+          {/*  */}
+          <div className="mb-4">
+            <label
+              htmlFor={`${category}Quantity`}
+              className="block text-sm font-semibold mb-1"
+            >
+              Description
+            </label>
+            <input
+              id={`${category}Description`}
+              type="input"
+              placeholder="Description"
+              className="border rounded p-2 w-full"
+              value={newItem.description}
+              onChange={(e) =>
+                setNewItem({
+                  ...newItem,
+                  description: e.target.value,
+                })
+              }
+            />
+          </div>
+          {/*  */}
           <div>
             <button
               type="button"

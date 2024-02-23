@@ -1,20 +1,23 @@
 import { BaseTypes } from "../Models/ingredients/baseTypeSchema.js";
 const createBaseType = async (req, res) => {
   try {
-    const { name, quantity_available, price } = req.body;
-
+    const { name, description, quantity_available, price } = req.body;
+    // , imageUrl
     const existingBaseType = await BaseTypes.findOne({ name });
     if (existingBaseType) {
       return res
         .status(400)
         .json({ error: "Topping with this name already exists" });
     }
-    if (!name || !quantity_available || !price) {
+    // || !imageUrl
+    if (!name || !description || !quantity_available || !price) {
       return res.status(400).json({ error: "All fields are required" });
     }
     // Create a new topping
     const newBaseType = await BaseTypes.create({
       name,
+      description,
+      // imageUrl,
       quantity_available,
       price,
     });

@@ -1,13 +1,24 @@
 import PropTypes from "prop-types";
 import { useGetPizzasQuery } from "../../../apis/pizzasAPI";
+import { PizzaSkeleton } from "../../../../utils/PizzaSkeleton";
+import { truncatedContent } from "../../../../utils/truncateContent";
+import { Error } from "../../../../utils/Error";
+
 const sizes = [
-  { label: "Small", value: "small" },
+  { label: "Normal", value: "normal" },
   { label: "Medium", value: "medium" },
   { label: "Large", value: "large" },
 ];
 function PizzaCardItem({ handleButtonClick }) {
-  const { data: madePizzas } = useGetPizzasQuery();
-  console.log(madePizzas.pizzas);
+  const { data: madePizzas, isLoading, isError } = useGetPizzasQuery();
+  if (isError) {
+    return <Error />;
+  }
+  if (isLoading) {
+    return Array.from({ length: 4 }, (_, index) => (
+      <PizzaSkeleton key={index} />
+    ));
+  }
   return (
     <>
       {madePizzas.pizzas.map((pizzas) => (
@@ -16,32 +27,19 @@ function PizzaCardItem({ handleButtonClick }) {
           key={pizzas._id}
         >
           <div onClick={handleButtonClick}>
-            <div className="list-item__image">
-              <img
-                src={pizzas.pizza_URL}
-                className="block w-full"
-                alt="image"
-              />
+            <img src={pizzas.pizza_URL} className="block w-full" alt="image" />
+            <div className="flex-1 px-4 my-4">
+              <h2 className="text-2xl font-semibold">{pizzas.name}</h2>
             </div>
-
-            <div className="typography-4 list-item__name flex-1 px-4 pt-4">
-              <h2>{pizzas.name}</h2>
-
-              <span className="ml-2 inline-flex align-middle">
-                <span className="flex font-light mr-2">
-                  <i className="icon-veg-india style-Irxjn"></i>
-                </span>
-              </span>
-            </div>
-            <p className="typography-6 list-item__desc flex-1 px-4">
-              {pizzas.description}
+            <p className="typography-6 list-item__desc flex-1 px-4 text-gray-800">
+              {truncatedContent(pizzas.description, 100)}
             </p>
           </div>
           <div className="mt-auto">
             <div className="m-4">
-              <div className="mb-4 relative">
+              <div className="mb-4">
                 <label htmlFor="dropdown" className="items-center pr-2 pb-2">
-                  <span>Select your size & crust</span>
+                  <span>Select your pizza Size</span>
                   <select
                     id="dropdown"
                     className="phdv-dropdown-select bg-grey-lightest p-2 w-full typography-6 bold my-1 border"

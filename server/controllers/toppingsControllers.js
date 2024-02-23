@@ -1,7 +1,7 @@
 import { Toppings } from "../Models/ingredients/toppings.js";
 const createToppings = async (req, res) => {
   try {
-    const { name, quantity_available, price } = req.body;
+    const { name, description, quantity_available, price } = req.body;
 
     const existingTopping = await Toppings.findOne({ name });
     if (existingTopping) {
@@ -9,12 +9,13 @@ const createToppings = async (req, res) => {
         .status(400)
         .json({ error: "Topping with this name already exists" });
     }
-    if (!name || !quantity_available || !price) {
+    if (!name || !description || !quantity_available || !price) {
       return res.status(400).json({ error: "All fields are required" });
     }
     // Create a new topping
     const newTopping = await Toppings.create({
       name,
+      description,
       quantity_available,
       price,
     });

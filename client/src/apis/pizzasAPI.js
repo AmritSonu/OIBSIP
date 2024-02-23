@@ -8,7 +8,9 @@ export const pizzasApi = createApi({
     getPizzas: builder.query({
       query: () => "get_pizzas",
     }),
+    getPizzaById: builder.query({
+      query: (id) => `get_pizza/${id}`,
+    }),
   }),
 });
-
-export const { useGetPizzasQuery } = pizzasApi;
+export const { useGetPizzasQuery, useGetPizzaByIdQuery } = pizzasApi;

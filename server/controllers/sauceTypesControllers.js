@@ -4,7 +4,7 @@ import { SauceTypes } from "../Models/ingredients/sauceType.js";
 
 const createSauceType = async (req, res) => {
   try {
-    const { name, quantity_available, price } = req.body;
+    const { name, description, quantity_available, price } = req.body;
 
     const existingSauceType = await SauceTypes.findOne({ name });
     if (existingSauceType) {
@@ -12,12 +12,13 @@ const createSauceType = async (req, res) => {
         .status(400)
         .json({ error: "Sauce Type with this name already exists" });
     }
-    if (!name || !quantity_available || !price) {
+    if (!name || !description || !quantity_available || !price) {
       return res.status(400).json({ error: "All fields are required" });
     }
     // Create a new topping
     const newSauceType = await SauceTypes.create({
       name,
+      description,
       quantity_available,
       price,
     });

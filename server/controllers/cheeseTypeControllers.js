@@ -1,20 +1,21 @@
 import { CheeseTypes } from "../Models/ingredients/cheeseType.js";
 const createCheeseType = async (req, res) => {
   try {
-    const { name, quantity_available, price } = req.body;
-
+    // imageUrl
+    const { name, description, quantity_available, price } = req.body;
     const existingCheeseType = await CheeseTypes.findOne({ name });
     if (existingCheeseType) {
       return res
         .status(400)
         .json({ error: "Cheese with this name already exists" });
     }
-    if (!name || !quantity_available || !price) {
+    if (!name || !description || !quantity_available || !price) {
       return res.status(400).json({ error: "All fields are required" });
     }
     // Create a new topping
     const newCheeseType = await CheeseTypes.create({
       name,
+      description,
       quantity_available,
       price,
     });

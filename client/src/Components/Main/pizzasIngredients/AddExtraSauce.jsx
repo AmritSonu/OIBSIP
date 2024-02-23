@@ -1,54 +1,29 @@
-const sauces = [
-  {
-    id: 1,
-    name: "Classic Tomato Sauce",
-    price: 10,
-    sauceUrl:
-      "https://www.pngkey.com/png/detail/308-3085628_pizza-clipart-pizza-sauce-cartoon-pizza-sauce.png",
-  },
-  {
-    id: 2,
-    name: "Pesto Sauce",
-    price: 15,
-    sauceUrl:
-      "https://www.pngkey.com/png/detail/308-3085628_pizza-clipart-pizza-sauce-cartoon-pizza-sauce.png",
-  },
-  {
-    id: 3,
-    name: "Alfredo Sauce",
-    price: 20,
-    sauceUrl:
-      "https://www.pngkey.com/png/detail/308-3085628_pizza-clipart-pizza-sauce-cartoon-pizza-sauce.png",
-  },
-  {
-    id: 4,
-    name: "Grill Sauce",
-    price: 32,
-    sauceUrl:
-      "https://www.pngkey.com/png/detail/308-3085628_pizza-clipart-pizza-sauce-cartoon-pizza-sauce.png",
-  },
-  {
-    id: 5,
-    name: "White Sauce (Garlic and Olive Oil)",
-    price: 39,
-    sauceUrl:
-      "https://www.pngkey.com/png/detail/308-3085628_pizza-clipart-pizza-sauce-cartoon-pizza-sauce.png",
-  },
-];
+import { Error } from "../../../../utils/Error";
+import { MiniLoader } from "../../../../utils/MiniLoader";
+import { useGetAllSauceTypeQuery } from "../../../apis/ingredientsAPI";
 
 function AddExtraSauce() {
+  const {
+    data: extraSauce,
+    isLoading: isextraSauceLoading,
+    error,
+  } = useGetAllSauceTypeQuery();
+
+  if (isextraSauceLoading) return <MiniLoader />;
+  if (error) return <Error />;
   return (
     <>
       <ul className="my-2">
         <div className="px-4 py-2">
-          {sauces.map((sauce) => (
+          {extraSauce.map((sauce) => (
             <li
-              key={sauce.id}
+              key={sauce._id}
               className="flex justify-between items-center hover:cursor-pointer mb-3"
             >
               <div className="flex items-center gap-2">
                 <img
-                  src={sauce.sauceUrl}
+                  // src={sauce.imageUrl}
+                  src="https://www.pngkey.com/png/detail/308-3085628_pizza-clipart-pizza-sauce-cartoon-pizza-sauce.png"
                   className="w-10 h-10 object-cover rounded-full"
                   alt={`${sauce.name} icon`}
                 />
