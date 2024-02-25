@@ -1,12 +1,14 @@
 import { Error } from "../../../../utils/Error";
 import { MiniLoader } from "../../../../utils/MiniLoader";
 import { useGetAllToppingQuery } from "../../../apis/ingredientsAPI";
+
 function AddExtraToppings() {
   const {
     data: extraToppings,
     isLoading: isextraToppingsLoading,
     error,
   } = useGetAllToppingQuery();
+
   if (isextraToppingsLoading) return <MiniLoader />;
   if (error) return <Error />;
   return (

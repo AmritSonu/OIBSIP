@@ -157,3 +157,60 @@ const Ingredient = mongoose.model('Ingredient', ingredientSchema);
 const Order = mongoose.model('Order', orderSchema);
 const Pizza = mongoose.model('Pizza', pizzaSchema);
 const Topping = mongoose.model('Topping', toppingSchema);
+
+
+// Example component using the order slice and RTK Query
+
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setPizzaId,
+  setCrustId,
+  setSauceId,
+  setCheeseId,
+  addToppingId,
+  removeToppingId,
+  resetOrder,
+  selectOrder,
+} from '../features/orderSlice';
+import { useSubmitOrderMutation } from '../apis/orderAPI';
+
+const OrderForm = () => {
+  const dispatch = useDispatch();
+  const order = useSelector(selectOrder);
+  const [submitOrder] = useSubmitOrderMutation();
+
+  const handlePizzaSelection = (pizzaId) => {
+    dispatch(setPizzaId(pizzaId));
+  };
+
+  // Other handlers for crust, sauce, cheese, and toppings
+
+  const handleAddTopping = (toppingId) => {
+    dispatch(addToppingId(toppingId));
+  };
+
+  const handleRemoveTopping = (toppingId) => {
+    dispatch(removeToppingId(toppingId));
+  };
+
+  const handleSubmitOrder = async () => {
+    try {
+      // Use RTK Query mutation to submit the order
+      await submitOrder(order);
+      // Optionally, reset the order state after submission
+      dispatch(resetOrder());
+    } catch (error) {
+      console.error('Error submitting order:', error);
+    }
+  };
+
+  return (
+    <div>
+      {/* Render your order form with appropriate handlers */}
+      <button onClick={handleSubmitOrder}>Submit Order</button>
+    </div>
+  );
+};
+
+export default OrderForm;

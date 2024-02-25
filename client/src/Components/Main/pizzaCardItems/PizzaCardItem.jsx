@@ -21,18 +21,22 @@ function PizzaCardItem({ handleButtonClick }) {
   }
   return (
     <>
-      {madePizzas.pizzas.map((pizzas) => (
+      {madePizzas.pizzas.map((eachPizza) => (
         <div
           className="list-item bg-white border rounded-md overflow-hidden hover:cursor-pointer"
-          key={pizzas._id}
+          key={eachPizza._id}
         >
-          <div onClick={handleButtonClick}>
-            <img src={pizzas.pizza_URL} className="block w-full" alt="image" />
+          <div onClick={() => handleButtonClick(eachPizza._id, eachPizza.name)}>
+            <img
+              src={eachPizza.pizza_URL}
+              className="block w-full"
+              alt="image"
+            />
             <div className="flex-1 px-4 my-4">
-              <h2 className="text-2xl font-semibold">{pizzas.name}</h2>
+              <h2 className="text-2xl font-semibold">{eachPizza.name}</h2>
             </div>
             <p className="typography-6 list-item__desc flex-1 px-4 text-gray-800">
-              {truncatedContent(pizzas.description, 100)}
+              {truncatedContent(eachPizza.description, 100)}
             </p>
           </div>
           <div className="mt-auto">
@@ -54,7 +58,7 @@ function PizzaCardItem({ handleButtonClick }) {
               </div>
               <button className="button button--md button--green flex-1 font-semibold bg-mainAdditionalcolor-150 py-1 px-5 font-mono">
                 <span>Add</span>
-                <span className="w-auto ml-2">{pizzas.price}</span>
+                <span className="w-auto ml-2">{eachPizza.price}</span>
               </button>
             </div>
           </div>

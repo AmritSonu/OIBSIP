@@ -8,8 +8,6 @@ import { ItemsPage } from "./pizzaCardItems/ItemsPage";
 function MainContainer() {
   return (
     <div className="p-5">
-      {/* <HeroPage/> */}
-
       <ItemsPage />
       {/* <PizzaSelectorBasket /> */}
       <Outlet />

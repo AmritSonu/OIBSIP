@@ -1,14 +1,23 @@
+import { useDispatch } from "react-redux";
 import { Error } from "../../../../utils/Error";
 import { MiniLoader } from "../../../../utils/MiniLoader";
 import { useGetAllSauceTypeQuery } from "../../../apis/ingredientsAPI";
+import { setSauceId } from "../../../slices/orderSlice";
+import { useState } from "react";
 
 function AddExtraSauce() {
+  const [selectedSauce, setSelectedSauce] = useState();
+  const dispatch = useDispatch();
   const {
     data: extraSauce,
     isLoading: isextraSauceLoading,
     error,
   } = useGetAllSauceTypeQuery();
 
+  function handleAddExtraSauce(sauceId) {
+    dispatch(setSauceId(sauceId));
+    setSelectedSauce(sauceId);
+  }
   if (isextraSauceLoading) return <MiniLoader />;
   if (error) return <Error />;
   return (
@@ -18,7 +27,10 @@ function AddExtraSauce() {
           {extraSauce.map((sauce) => (
             <li
               key={sauce._id}
-              className="flex justify-between items-center hover:cursor-pointer mb-3"
+              onClick={() => handleAddExtraSauce(sauce._id)}
+              className={`flex justify-between items-center hover:cursor-pointer mb-3 ${
+                sauce._id === selectedSauce ? "bg-yellow-100" : ""
+              }`}
             >
               <div className="flex items-center gap-2">
                 <img
