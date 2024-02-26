@@ -1,49 +1,110 @@
+// import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Error } from "../../../../utils/Error";
 import { MiniLoader } from "../../../../utils/MiniLoader";
 import { useGetAllToppingQuery } from "../../../apis/ingredientsAPI";
+import { addToppingId, removeToppingId } from "../../../slices/orderSlice";
 
 function AddExtraToppings() {
+  const selectedToppings = useSelector((state) => state.order.toppingIds);
+  console.log(selectedToppings);
+  const dispatch = useDispatch();
+
   const {
     data: extraToppings,
     isLoading: isextraToppingsLoading,
     error,
   } = useGetAllToppingQuery();
 
+  const handleAddExtraToppings = (toppingId) => {
+    const toppingCount = selectedToppings.filter(
+      (id) => id === toppingId
+    ).length;
+
+    if (toppingCount < 1) {
+      dispatch(addToppingId(toppingId));
+    } else {
+      console.log("You already selected this topping ");
+    }
+  };
+  const handleRemoveTopping = (toppingId) => {
+    dispatch(removeToppingId(toppingId));
+  };
+
   if (isextraToppingsLoading) return <MiniLoader />;
   if (error) return <Error />;
   return (
-    <ul className="my-2">
+    <>
       {extraToppings.map((topping) => (
-        <div className="px-4 py-2" key={topping._id}>
-          <li className="flex justify-between items-center hover:cursor-pointer">
-            <div className="flex items-center gap-2">
-              <img
-                // src={topping.imageUrl}
-                src="https://us.123rf.com/450wm/prettyvectors/prettyvectors2304/prettyvectors230400004/201542383-sweet-pepper-bell-slice-paprika-chopped-concept-vector-graphic-design-illustration.jpg?ver=6"
-                className="w-10 h-10 object-cover"
-                alt={`${topping.name} icon`}
-              />
-              <span className="text-gray-700">{topping.name}</span>
-            </div>
-            <div className="flex items-center gap-4 font-semibold text-gray-600">
-              <span className="text-sm">₹{topping.price}</span>
-              <button type="button">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2.5"
-                  stroke="green"
-                  className="w-6 h-6"
-                >
-                  <path strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-              </button>
-            </div>
-          </li>
+        <div className="my-2 relative" key={topping._id}>
+          <ul
+            onClick={() => handleAddExtraToppings(topping._id)}
+            className={`px-4 py-2 ${
+              selectedToppings.includes(topping._id) ? "bg-yellow-100" : ""
+            }  `}
+          >
+            <li
+              className={`flex justify-between items-center hover:cursor-pointer text-gray-700 ${
+                selectedToppings.length === 4
+                  ? "text-opacity-20 cursor-not-allowed"
+                  : ""
+              }
+                  ${
+                    selectedToppings.includes(topping._id)
+                      ? "text-opacity-95 font-semibold"
+                      : ""
+                  }
+                  `}
+            >
+              <div className="flex items-center gap-2">
+                <img
+                  // src={topping.imageUrl}
+                  src="https://us.123rf.com/450wm/prettyvectors/prettyvectors2304/prettyvectors230400004/201542383-sweet-pepper-bell-slice-paprika-chopped-concept-vector-graphic-design-illustration.jpg?ver=6"
+                  className="w-10 h-10 object-cover"
+                  alt={`${topping.name} icon`}
+                />
+                <span>{topping.name}</span>
+              </div>
+              <div
+                className={`flex items-center gap-4 font-semibold text-gray-600 ${
+                  selectedToppings.length === 4
+                    ? "text-opacity-20 cursor-not-allowed"
+                    : ""
+                } 
+                  ${
+                    selectedToppings.includes(topping._id)
+                      ? "text-opacity-95 font-semibold"
+                      : ""
+                  }`}
+              >
+                <span className="text-sm">₹{topping.price}</span>
+              </div>
+            </li>
+          </ul>
+          {selectedToppings.includes(topping._id) && (
+            <button
+              className="bg-gray-400 rounded-full font-thin absolute top-5 -right-6"
+              onClick={() => handleRemoveTopping(topping._id)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="white"
+                className="w-5 h-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          )}
         </div>
       ))}
-    </ul>
+    </>
   );
 }
 export { AddExtraToppings };

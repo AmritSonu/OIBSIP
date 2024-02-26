@@ -1,17 +1,12 @@
 import { AddExtraCheese } from "./AddExtraCheese";
 import { AddExtraSauce } from "./AddExtraSauce";
 import { AddExtraToppings } from "./AddExtraToppings";
-import { IncludedToppings } from "./IncludedToppings";
 function MainPizzasIngredients() {
   return (
     <>
       <div className="overflow-auto h-48">
         <div className="border w-11/12">
-          <h2 className="bg-slate-800 font-bold py-3 pl-5 text-lg text-white">
-            Change your toppings
-          </h2>
-          <IncludedToppings />
-
+          
           <h2 className="bg-slate-800 font-bold py-3 pl-5 text-lg text-white">
             Add Extra Toppings
           </h2>

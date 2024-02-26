@@ -19,6 +19,7 @@ function PizzaCardItem({ handleButtonClick }) {
       <PizzaSkeleton key={index} />
     ));
   }
+
   return (
     <>
       {madePizzas.pizzas.map((eachPizza) => (

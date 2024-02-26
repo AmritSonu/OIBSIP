@@ -25,7 +25,15 @@ const orderSlice = createSlice({
       state.cheeseId = action.payload;
     },
     addToppingId: (state, action) => {
-      state.toppingIds.push(action.payload);
+      const newToppingId = action.payload;
+      if (state.toppingIds.length < 4) {
+        const toppingCount = state.toppingIds.filter(
+          (id) => id === newToppingId
+        ).length;
+        if (toppingCount < 1) {
+          state.toppingIds.push(newToppingId);
+        }
+      }
     },
     removeToppingId: (state, action) => {
       state.toppingIds = state.toppingIds.filter((id) => id !== action.payload);

@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { PizzaCardItem } from "./PizzaCardItem";
 import { CustomDialogBox } from "../pizzaCustomDialogBox/CustomDialogBox";
 import { useDispatch } from "react-redux";
-import { setCrustId } from "../../../slices/orderSlice";
+import { resetOrder } from "../../../slices/orderSlice";
+import { setPizzaId } from "../../../slices/orderSlice";
 
 function PizzaBox() {
   const dispatch = useDispatch();
@@ -17,10 +18,12 @@ function PizzaBox() {
     const slug = slugify(eachPizzaName, { lower: true });
     const queryString = `/pizzas?_kind=${slug}`;
     navigate(queryString, { state: { pizzaId: eachPizzaId } });
+    dispatch(setPizzaId(eachPizzaId));
   };
 
   const handleCloseDialog = () => {
-    dispatch(setCrustId(null));
+    dispatch(resetOrder());
+
     setIsDialogOpen(false);
     navigate(-1);
   };

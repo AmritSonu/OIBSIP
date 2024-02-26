@@ -20,7 +20,6 @@ const CustomDialogBox = ({ isOpen, handleClose }) => {
     refetch,
   } = useGetPizzaByIdQuery(newPizzaId);
 
-  // console.log(isCrustSelected);
   useEffect(() => {
     if (newPizzaId) {
       refetch();
