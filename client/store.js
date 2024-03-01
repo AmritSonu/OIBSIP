@@ -5,13 +5,15 @@ import { ingredientsApi } from "./src/apis/ingredientsAPI";
 import { pizzasApi } from "./src/apis/pizzasAPI";
 import { orderApi } from "./src/apis/orderAPI";
 import orderReducer from "./src/slices/orderSlice";
+// import totalPriceReducer from "./src/slices/totalPriceSlice";
 
 export const store = configureStore({
   reducer: {
     [ingredientsApi.reducerPath]: ingredientsApi.reducer,
     [pizzasApi.reducerPath]: pizzasApi.reducer,
     [orderApi.reducerPath]: orderApi.reducer,
-    order: orderReducer, // Add the order reducer to the store
+    order: orderReducer,
+    // totalPrice: totalPriceReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(

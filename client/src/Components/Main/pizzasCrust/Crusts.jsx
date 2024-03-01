@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Error } from "../../../../utils/Error";
 import { MiniLoader } from "../../../../utils/MiniLoader";
 import { useGetAllBaseTypeQuery } from "../../../apis/ingredientsAPI";
-import { setCrustId } from "../../../slices/orderSlice";
+import { setCrustId, updateTotalPrice } from "../../../slices/orderSlice";
 const Crusts = () => {
   const [selectedCrust, setSelectedCrust] = useState(null);
   const dispatch = useDispatch();
@@ -13,9 +13,13 @@ const Crusts = () => {
     error,
   } = useGetAllBaseTypeQuery();
 
+  const newTotalPrice = useSelector((state) => state.order.totalPrice);
+
   // Handling Crust Selection by Customer...
-  const handleCrustSelection = (crustId) => {
+  const handleCrustSelection = (crustId, crustPrice) => {
     dispatch(setCrustId(crustId));
+    const totalPriceUpdate = newTotalPrice + crustPrice;
+    dispatch(updateTotalPrice(totalPriceUpdate));
     setSelectedCrust(crustId);
   };
 
@@ -27,7 +31,7 @@ const Crusts = () => {
     <>
       {crustTypes.map((crust) => (
         <div
-          onClick={() => handleCrustSelection(crust._id)}
+          onClick={() => handleCrustSelection(crust._id, crust.price)}
           key={crust._id}
           className={`flex justify-between items-center hover:cursor-pointer ${
             crust._id === selectedCrust ? "bg-yellow-100" : ""

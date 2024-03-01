@@ -1,25 +1,55 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Error } from "../../../../utils/Error";
 import { MiniLoader } from "../../../../utils/MiniLoader";
 import { useGetAllSauceTypeQuery } from "../../../apis/ingredientsAPI";
-import { setSauceId } from "../../../slices/orderSlice";
-import { useState } from "react";
+import { setSauceId, updateTotalPrice } from "../../../slices/orderSlice";
+import { useEffect, useState } from "react";
 
 function AddExtraSauce() {
   const [selectedSauce, setSelectedSauce] = useState();
   const dispatch = useDispatch();
+  const currentTotalPrice = useSelector((state) => state.order.totalPrice);
+  const selectedSauceId = useSelector((state) => state.order.sauceId);
+
   const {
     data: extraSauce,
-    isLoading: isextraSauceLoading,
+    isLoading: isExtraSauceLoading,
     error,
   } = useGetAllSauceTypeQuery();
+
+  function getSelectedSaucePrice() {
+    return selectedSauceId ? getSaucePriceById(selectedSauceId) : 0;
+  }
+
+  function getSaucePriceById(id) {
+    return extraSauce.find((sauce) => sauce._id === id)?.price || 0;
+  }
+
+  useEffect(() => {
+    if (selectedSauceId) {
+      dispatch(
+        updateTotalPrice(
+          currentTotalPrice -
+            getSelectedSaucePrice() +
+            getSaucePriceById(selectedSauceId)
+        )
+      );
+    }
+  }, [selectedSauceId, currentTotalPrice, dispatch, extraSauce]);
 
   function handleAddExtraSauce(sauceId) {
     dispatch(setSauceId(sauceId));
     setSelectedSauce(sauceId);
+    dispatch(
+      updateTotalPrice(
+        currentTotalPrice - getSelectedSaucePrice() + getSaucePriceById(sauceId)
+      )
+    );
   }
-  if (isextraSauceLoading) return <MiniLoader />;
+
+  if (isExtraSauceLoading) return <MiniLoader />;
   if (error) return <Error />;
+
   return (
     <>
       <ul className="my-2">
@@ -34,7 +64,6 @@ function AddExtraSauce() {
             >
               <div className="flex items-center gap-2">
                 <img
-                  // src={sauce.imageUrl}
                   src="https://www.pngkey.com/png/detail/308-3085628_pizza-clipart-pizza-sauce-cartoon-pizza-sauce.png"
                   className="w-10 h-10 object-cover rounded-full"
                   alt={`${sauce.name} icon`}

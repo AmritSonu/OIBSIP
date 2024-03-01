@@ -1,4 +1,4 @@
-// import { useState } from "react";
+// AddExtraToppings.js
 import { useDispatch, useSelector } from "react-redux";
 import { Error } from "../../../../utils/Error";
 import { MiniLoader } from "../../../../utils/MiniLoader";
@@ -7,7 +7,6 @@ import { addToppingId, removeToppingId } from "../../../slices/orderSlice";
 
 function AddExtraToppings() {
   const selectedToppings = useSelector((state) => state.order.toppingIds);
-  console.log(selectedToppings);
   const dispatch = useDispatch();
 
   const {
@@ -16,29 +15,37 @@ function AddExtraToppings() {
     error,
   } = useGetAllToppingQuery();
 
-  const handleAddExtraToppings = (toppingId) => {
+  const handleAddExtraToppings = (topping) => {
     const toppingCount = selectedToppings.filter(
-      (id) => id === toppingId
+      (id) => id === topping._id
     ).length;
 
     if (toppingCount < 1) {
-      dispatch(addToppingId(toppingId));
+      dispatch(
+        addToppingId({
+          id: topping._id,
+          price: topping.price,
+          name: topping.name,
+        })
+      );
     } else {
       console.log("You already selected this topping ");
     }
   };
+
   const handleRemoveTopping = (toppingId) => {
     dispatch(removeToppingId(toppingId));
   };
 
   if (isextraToppingsLoading) return <MiniLoader />;
   if (error) return <Error />;
+
   return (
     <>
       {extraToppings.map((topping) => (
         <div className="my-2 relative" key={topping._id}>
           <ul
-            onClick={() => handleAddExtraToppings(topping._id)}
+            onClick={() => handleAddExtraToppings(topping)}
             className={`px-4 py-2 ${
               selectedToppings.includes(topping._id) ? "bg-yellow-100" : ""
             }  `}
@@ -58,7 +65,6 @@ function AddExtraToppings() {
             >
               <div className="flex items-center gap-2">
                 <img
-                  // src={topping.imageUrl}
                   src="https://us.123rf.com/450wm/prettyvectors/prettyvectors2304/prettyvectors230400004/201542383-sweet-pepper-bell-slice-paprika-chopped-concept-vector-graphic-design-illustration.jpg?ver=6"
                   className="w-10 h-10 object-cover"
                   alt={`${topping.name} icon`}

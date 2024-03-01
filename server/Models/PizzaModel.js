@@ -1,14 +1,9 @@
 import mongoose from "mongoose";
 const pizzaSchema = new mongoose.Schema({
-  // order_id: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "Order",
-  //   required: true,
-  // },
   name: { type: String, required: true },
   description: { type: String, required: true },
-  pizza_URL: { type: String, require: true },
-  category: { type: String, require: true },
+  pizza_URL: { type: String, required: true },
+  category: { type: String, required: true },
   base_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "BaseTypes",

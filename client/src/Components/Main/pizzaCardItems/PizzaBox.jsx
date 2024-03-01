@@ -4,7 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { PizzaCardItem } from "./PizzaCardItem";
 import { CustomDialogBox } from "../pizzaCustomDialogBox/CustomDialogBox";
 import { useDispatch } from "react-redux";
-import { resetOrder } from "../../../slices/orderSlice";
+import {
+  resetOrder,
+  setPizzaSize,
+  updateTotalPrice,
+} from "../../../slices/orderSlice";
 import { setPizzaId } from "../../../slices/orderSlice";
 
 function PizzaBox() {
@@ -13,12 +17,19 @@ function PizzaBox() {
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const handleButtonClick = (eachPizzaId, eachPizzaName) => {
+  const handleButtonClick = (
+    eachPizzaId,
+    eachPizzaName,
+    eachPizzaPrice,
+    pizzaSize
+  ) => {
     setIsDialogOpen(true);
     const slug = slugify(eachPizzaName, { lower: true });
     const queryString = `/pizzas?_kind=${slug}`;
     navigate(queryString, { state: { pizzaId: eachPizzaId } });
     dispatch(setPizzaId(eachPizzaId));
+    dispatch(updateTotalPrice(eachPizzaPrice));
+    dispatch(setPizzaSize(pizzaSize));
   };
 
   const handleCloseDialog = () => {
@@ -41,5 +52,4 @@ function PizzaBox() {
     </>
   );
 }
-
 export { PizzaBox };

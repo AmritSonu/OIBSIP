@@ -1,5 +1,5 @@
 import { Pizza } from "../Models/PizzaModel.js";
-
+import mongoose from "mongoose";
 const createPizza = async (req, res) => {
   try {
     const {
@@ -63,9 +63,19 @@ const getPizzas = async (req, res) => {
 
 const getSinglePizza = async (req, res) => {
   try {
-    const pizzaId = req.params.id;
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ error: "Pizza ID is required" });
+    }
+    const isValidObjectId = mongoose.Types.ObjectId.isValid(id);
+
+    if (!isValidObjectId) {
+      return res.status(400).json({ error: "Invalid pizzaId format" });
+    }
+
     // Fetch the pizza by ID
-    const pizza = await Pizza.findById(pizzaId).populate(
+    const pizza = await Pizza.findById(id).populate(
       "base_id sauce_id cheese_id topping_id"
     );
 
