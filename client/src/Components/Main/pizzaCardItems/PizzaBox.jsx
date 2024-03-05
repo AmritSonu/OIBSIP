@@ -6,6 +6,7 @@ import { CustomDialogBox } from "../pizzaCustomDialogBox/CustomDialogBox";
 import { useDispatch } from "react-redux";
 import {
   resetOrder,
+  setPizzaName,
   setPizzaSize,
   updateTotalPrice,
 } from "../../../slices/orderSlice";
@@ -13,7 +14,6 @@ import { setPizzaId } from "../../../slices/orderSlice";
 
 function PizzaBox() {
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -28,6 +28,7 @@ function PizzaBox() {
     const queryString = `/pizzas?_kind=${slug}`;
     navigate(queryString, { state: { pizzaId: eachPizzaId } });
     dispatch(setPizzaId(eachPizzaId));
+    dispatch(setPizzaName(eachPizzaName));
     dispatch(updateTotalPrice(eachPizzaPrice));
     dispatch(setPizzaSize(pizzaSize));
   };

@@ -1,7 +1,7 @@
 // orderSlice.js
 import { createSlice } from "@reduxjs/toolkit";
-
 const initialState = {
+  PizzaName: "",
   pizzaId: null,
   crustId: null,
   sauceId: null,
@@ -16,6 +16,9 @@ const orderSlice = createSlice({
   name: "order",
   initialState,
   reducers: {
+    setPizzaName: (state, action) => {
+      state.PizzaName = action.payload;
+    },
     setPizzaId: (state, action) => {
       state.pizzaId = action.payload;
     },
@@ -66,6 +69,7 @@ const orderSlice = createSlice({
 });
 
 export const {
+  setPizzaName,
   setPizzaId,
   setCrustId,
   setSauceId,
@@ -80,4 +84,5 @@ export const {
 export const selectOrder = (state) => state.order;
 export const selectCheeseId = (state) => state.order.cheeseId;
 export const totalPizzaPrice = (state) => state.order.totalPrice;
+// export const resetFullorder = (state) => state.order.resetOrder;
 export default orderSlice.reducer;

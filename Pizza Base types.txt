@@ -214,3 +214,16 @@ const OrderForm = () => {
 };
 
 export default OrderForm;
+
+
+
+
+Here's a basic example of how you might approach it:
+
+    When a user adds a pizza to the basket, update the Redux store and save the basket details to local storage.
+    On the checkout page, retrieve the basket details from the Redux store.
+    When the user opens the app, check local storage for any existing basket data and initialize the Redux store with that data.
+
+Remember to handle edge cases such as clearing the basket when an order is successfully placed or when the user wants to clear their basket manually.
+
+Choose an approach that fits the complexity and requirements of your application while considering user experience and performance. The hybrid approach of using both Redux and local storage often provides a good balance.

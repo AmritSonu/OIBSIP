@@ -5,6 +5,7 @@ import { ingredientsApi } from "./src/apis/ingredientsAPI";
 import { pizzasApi } from "./src/apis/pizzasAPI";
 import { orderApi } from "./src/apis/orderAPI";
 import orderReducer from "./src/slices/orderSlice";
+import basketSlice from "./src/slices/basketSlice";
 // import totalPriceReducer from "./src/slices/totalPriceSlice";
 
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
     [pizzasApi.reducerPath]: pizzasApi.reducer,
     [orderApi.reducerPath]: orderApi.reducer,
     order: orderReducer,
+    basket: basketSlice,
     // totalPrice: totalPriceReducer,
   },
   middleware: (getDefaultMiddleware) =>

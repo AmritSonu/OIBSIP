@@ -7,9 +7,11 @@ import { Error } from "../../../../utils/Error";
 import { useDispatch } from "react-redux";
 import {
   setPizzaId,
+  setPizzaName,
   setPizzaSize,
   updateTotalPrice,
 } from "../../../slices/orderSlice";
+import { addToBasket } from "../../../slices/basketSlice";
 
 const sizes = [
   { label: "Normal", value: "normal", priceIncrease: 0 },
@@ -49,12 +51,19 @@ function PizzaCardItem({ handleButtonClick }) {
     return pizza.price;
   };
 
-  const updateTotalPricePizza = (totalPrice, pizzaId, pizzaSize) => {
+  const updateTotalPricePizza = (totalPrice, pizzaId, pizzaSize, PizzaName) => {
     // Dispatch the action to update the total price
+    const pizzaDetails = {
+      _id: pizzaId,
+      PizzaName: PizzaName,
+      pizzaSize: pizzaSize,
+      totalPrice: totalPrice,
+    };
     dispatch(updateTotalPrice(totalPrice));
     dispatch(setPizzaId(pizzaId));
     dispatch(setPizzaSize(pizzaSize));
-    console.log(totalPrice);
+    dispatch(setPizzaName(PizzaName));
+    dispatch(addToBasket(pizzaDetails));
   };
 
   return (
@@ -119,7 +128,8 @@ function PizzaCardItem({ handleButtonClick }) {
                   updateTotalPricePizza(
                     calculatePrice(eachPizza),
                     eachPizza._id,
-                    selectedSizes[eachPizza._id]
+                    selectedSizes[eachPizza._id],
+                    eachPizza.name
                   )
                 }
               >
