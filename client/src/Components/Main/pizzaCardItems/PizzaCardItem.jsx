@@ -1,3 +1,4 @@
+// PizzaCart Item
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { useGetPizzasQuery } from "../../../apis/pizzasAPI";
@@ -64,6 +65,11 @@ function PizzaCardItem({ handleButtonClick }) {
     dispatch(setPizzaSize(pizzaSize));
     dispatch(setPizzaName(PizzaName));
     dispatch(addToBasket(pizzaDetails));
+
+    // Push pizzaDetails into local storage
+    const storedBasket = JSON.parse(localStorage.getItem("basket")) || [];
+    storedBasket.push(pizzaDetails);
+    localStorage.setItem("basket", JSON.stringify(storedBasket));
   };
 
   return (

@@ -1,20 +1,26 @@
-import { useDispatch, useSelector } from "react-redux";
+// Pizza Basket
 import { useNavigate } from "react-router-dom";
-import { removeFromBasket, selectBasket } from "../../../slices/basketSlice";
+import { useEffect, useState } from "react";
 
 function PizzaSelectorBasket() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const basket = useSelector(selectBasket);
+  const [basket, setBasket] = useState([]);
   const resturent_fees = 18;
 
+  useEffect(() => {
+    const storedBasket = JSON.parse(localStorage.getItem("basket")) || [];
+    setBasket(storedBasket);
+  }, [setBasket]);
   const handleCart = (e) => {
     e.preventDefault();
     navigate("/checkout");
   };
   const handleBasketDeleteItem = (pizzaId) => {
-    console.log("Deleting item with ID:", pizzaId);
-    dispatch(removeFromBasket(pizzaId));
+    // Remove the item from the basket
+    const updatedBasket = basket.filter((item) => item._id !== pizzaId);
+    setBasket(updatedBasket);
+    // Update local storage
+    localStorage.setItem("basket", JSON.stringify(updatedBasket));
   };
   // Calculate subtotal and total
   const subtotal = basket.reduce((acc, pizza) => acc + pizza.totalPrice, 0);
@@ -82,20 +88,22 @@ function PizzaSelectorBasket() {
         )}
       </div>
       {basket.length ? (
-        <div className="flex flex-col gap-5 justify-between p-5 font-semibold text-gray-700">
-          <span>Sub-total: ₹ {subtotal}</span>
-          <span>Resturent Additional Fees - ₹ {resturent_fees}</span>
-          <span>Total - ₹ {total}</span>
-        </div>
+        <>
+          <div className="flex flex-col gap-5 justify-between p-5 font-semibold text-gray-700">
+            <span>Sub-total: ₹ {subtotal}</span>
+            <span>Resturent Additional Fees - ₹ {resturent_fees}</span>
+            <span>Total - ₹ {total}</span>
+          </div>
+          <button
+            className="p-1 bg-mainAdditionalcolor-150 ml-5 my-2 font-mono px-6"
+            onClick={handleCart}
+          >
+            Conform
+          </button>
+        </>
       ) : (
         ""
       )}
-      <button
-        className="p-1 bg-mainAdditionalcolor-150 ml-5 my-2 font-mono px-6"
-        onClick={handleCart}
-      >
-        Conform
-      </button>
     </div>
   );
 }
