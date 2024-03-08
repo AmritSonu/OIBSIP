@@ -15,5 +15,6 @@ const paymentSlice = createSlice({
     },
   },
 });
+
 export const { setOrderId, setPaymentStatus } = paymentSlice.actions;
 export default paymentSlice.reducer;

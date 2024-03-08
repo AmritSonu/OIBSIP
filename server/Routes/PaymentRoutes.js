@@ -5,7 +5,7 @@ import {
   paymentVerification,
 } from "../controllers/paymentControllers.js";
 const razorpayRouter = express();
-razorpayRouter.post("/orders", getOrder);
+razorpayRouter.post("/checkout", getOrder);
 razorpayRouter.post("/payment_verification", paymentVerification);
 razorpayRouter.get("/get_api_key", getAPIkey);
 

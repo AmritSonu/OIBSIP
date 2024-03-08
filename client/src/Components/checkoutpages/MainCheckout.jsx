@@ -9,36 +9,44 @@ const MainCheckout = () => {
   const { subtotal, total: amount } = calculateTotals(cart, resturent_fees);
 
   async function checkoutHandler() {
-    const {
-      data: { key },
-    } = await axios.get("http://localhost:3000/payment/get_api_key");
-    const {
-      data: { order },
-    } = await axios.post("http://localhost:3000/payment/checkout", { amount });
-    console.log(order);
-    const options = {
-      key,
-      amount: order.amount,
-      currency: "INR",
-      name: "Amritpal",
-      description: "Demo Project",
-      image: "https://picsum.photos/200",
-      order_id: order.id,
-      callback_url: "http://localhost:3000/payment/payment_verification",
-      prefill: {
-        name: "Amritpal Singh",
-        email: "sonus644@gmail.com",
-        contact: "6434673260",
-      },
-      notes: {
-        address: "razorapy official",
-      },
-      theme: {
-        color: "#3399cc",
-      },
-    };
-    const razor = new window.Razorpay(options);
-    razor.open();
+    try {
+      const {
+        data: { key },
+      } = await axios.get("http://localhost:3000/payment/get_api_key");
+      const {
+        data: { order },
+      } = await axios.post("http://localhost:3000/payment/checkout", {
+        amount,
+      });
+
+      if (order) {
+        const options = {
+          key,
+          amount: order.amount,
+          currency: "INR",
+          name: "Amritpal",
+          description: "Demo Project",
+          image: "https://picsum.photos/200",
+          order_id: order.id,
+          callback_url: "http://localhost:3000/payment/payment_verification",
+          prefill: {
+            name: "Amritpal Singh",
+            email: "sonus644@gmail.com",
+            contact: "6280649158",
+          },
+          notes: {
+            address: "razorapy official",
+          },
+          theme: {
+            color: "#3399cc",
+          },
+        };
+        const razor = new window.Razorpay(options);
+        razor.open();
+      }
+    } catch (error) {
+      console.error("Error during checkout:", error);
+    }
   }
 
   return (

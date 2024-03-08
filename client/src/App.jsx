@@ -14,6 +14,7 @@ import { EditPizza } from "./AdminComponents/pizzas/Editpizza";
 import { PizzaStatistics } from "./AdminComponents/pizzaStatistics/PizzaStatistics";
 import { HeroPage } from "./heropage/HeroPage";
 import { CartProvider } from "./slices/CartContext";
+import { PaymentSuccess } from "./payments/PaymentSuccess";
 function App() {
   return (
     <BrowserRouter>
@@ -35,6 +36,7 @@ function App() {
             <Route path="add-pizza" element={<AddPizza />} />
             <Route path="edit-pizza" element={<EditPizza />} />
           </Route>
+          <Route path="/paymentSuccess/:id?" element={<PaymentSuccess />} />
         </Routes>
       </CartProvider>
     </BrowserRouter>

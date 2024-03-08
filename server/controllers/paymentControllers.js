@@ -46,7 +46,7 @@ const paymentVerification = async (req, res) => {
       });
       // console.log("payment successfull");
       return res.redirect(
-        `http://localhost:5173/paymentSuccess?reference=${razorpay_payment_id}`
+        `http://localhost:5173/paymentSuccess/confirm?reference=${razorpay_payment_id}?`
       );
     }
   } catch (error) {
@@ -60,4 +60,3 @@ const getAPIkey = (req, res) => {
   });
 };
 export { getOrder, paymentVerification, getAPIkey };
-
