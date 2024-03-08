@@ -1,30 +1,21 @@
-// Pizza Basket
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCart } from "../../../slices/useCartContext";
+import { calculateTotals } from "../../../../utils/calculateTotals";
 
 function PizzaSelectorBasket() {
   const navigate = useNavigate();
-  const [basket, setBasket] = useState([]);
   const resturent_fees = 18;
+  const { cart: basket, removeFromCart } = useCart();
+  const { subtotal, total } = calculateTotals(basket, resturent_fees);
 
-  useEffect(() => {
-    const storedBasket = JSON.parse(localStorage.getItem("basket")) || [];
-    setBasket(storedBasket);
-  }, [setBasket]);
   const handleCart = (e) => {
     e.preventDefault();
     navigate("/checkout");
   };
+
   const handleBasketDeleteItem = (pizzaId) => {
-    // Remove the item from the basket
-    const updatedBasket = basket.filter((item) => item._id !== pizzaId);
-    setBasket(updatedBasket);
-    // Update local storage
-    localStorage.setItem("basket", JSON.stringify(updatedBasket));
+    removeFromCart(pizzaId);
   };
-  // Calculate subtotal and total
-  const subtotal = basket.reduce((acc, pizza) => acc + pizza.totalPrice, 0);
-  const total = subtotal + resturent_fees;
 
   return (
     <div className="border absolute top-20 right-0  md:w-3/12 bg-white sm:w-5/12">

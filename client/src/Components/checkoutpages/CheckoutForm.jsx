@@ -93,7 +93,7 @@ function CheckoutForm() {
           type="submit"
           className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
         >
-          Place Order
+          Pay and place Place Order
         </button>
       </form>
     </div>

@@ -1,0 +1,31 @@
+import cors from "cors";
+import express from "express";
+import bodyParser from "body-parser";
+import { pizzaRouter } from "./Routes/pizzaRoutes.js";
+import { orderRouter } from "./Routes/orderRoutes.js";
+import { razorpayRouter } from "./Routes/PaymentRoutes.js";
+import { toppingsRouter } from "./Routes/toppingsRoutes.js";
+import { baseTypesRouter } from "./Routes/baseTypeRoutes.js";
+import { cheeseTypesRouter } from "./Routes/cheeseTypeRoutes.js";
+import { sauceTypesRouter } from "./Routes/sauceTypeRoutes.js";
+
+// MIDDLEWARES...
+export const setupMiddleware = (app) => {
+  app.use(cors());
+  app.use(express.json());
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+};
+
+// ROUTES...
+export const setupRoutes = (app) => {
+  app.use("/app", pizzaRouter, orderRouter);
+  app.use("/payment", razorpayRouter);
+  app.use(
+    "/app/ingredients",
+    toppingsRouter,
+    baseTypesRouter,
+    cheeseTypesRouter,
+    sauceTypesRouter
+  );
+};

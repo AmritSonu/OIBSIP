@@ -13,27 +13,30 @@ import { AddPizza } from "./AdminComponents/pizzas/AddPizza";
 import { EditPizza } from "./AdminComponents/pizzas/Editpizza";
 import { PizzaStatistics } from "./AdminComponents/pizzaStatistics/PizzaStatistics";
 import { HeroPage } from "./heropage/HeroPage";
+import { CartProvider } from "./slices/CartContext";
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HeroPage />} />
-          <Route path="signup" element={<Signup />} />
-          <Route path="checkout" element={<MainCheckout />} />
-          <Route path="/pizzas/:id?" element={<MainContainer />}>
-            <Route path="basket" element={<PizzaSelectorBasket />} />
+      <CartProvider>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HeroPage />} />
+            <Route path="signup" element={<Signup />} />
+            <Route path="checkout" element={<MainCheckout />} />
+            <Route path="/pizzas/:id?" element={<MainContainer />}>
+              <Route path="basket" element={<PizzaSelectorBasket />} />
+            </Route>
+            <Route path="*" element={<NotFound />} />
           </Route>
-          <Route path="*" element={<NotFound />} />
-        </Route>
-        <Route path="/admin" element={<MainAdmin />}>
-          <Route index element={<PizzaStatistics />} />
-          <Route path="orders" element={<Orders />} />
-          <Route path="ingredients" element={<Ingredients />} />
-          <Route path="add-pizza" element={<AddPizza />} />
-          <Route path="edit-pizza" element={<EditPizza />} />
-        </Route>
-      </Routes>
+          <Route path="/admin" element={<MainAdmin />}>
+            <Route index element={<PizzaStatistics />} />
+            <Route path="orders" element={<Orders />} />
+            <Route path="ingredients" element={<Ingredients />} />
+            <Route path="add-pizza" element={<AddPizza />} />
+            <Route path="edit-pizza" element={<EditPizza />} />
+          </Route>
+        </Routes>
+      </CartProvider>
     </BrowserRouter>
   );
 }
