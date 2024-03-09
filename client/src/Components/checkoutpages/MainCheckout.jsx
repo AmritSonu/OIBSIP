@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { calculateTotals } from "../../../utils/calculateTotals";
 import { useCart } from "../../slices/useCartContext";
 const MainCheckout = () => {
-  const { cart } = useCart();
+  const { cart, clearCart } = useCart();
   const resturent_fees = 18;
   const navigate = useNavigate();
   const { subtotal, total: amount } = calculateTotals(cart, resturent_fees);
@@ -18,7 +18,7 @@ const MainCheckout = () => {
       } = await axios.post("http://localhost:3000/payment/checkout", {
         amount,
       });
-
+      console.log(order);
       if (order) {
         const options = {
           key,
@@ -42,6 +42,14 @@ const MainCheckout = () => {
           },
         };
         const razor = new window.Razorpay(options);
+
+        razor.on("payment.success", (res) => {
+          console.log("Resposnse is here:", res);
+
+          // Clear the cart and local storage when payment is successful
+          clearCart();
+          localStorage.clear();
+        });
         razor.open();
       }
     } catch (error) {
