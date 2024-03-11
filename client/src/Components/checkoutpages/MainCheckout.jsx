@@ -2,13 +2,15 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { calculateTotals } from "../../../utils/calculateTotals";
 import { useCart } from "../../slices/useCartContext";
+import { CheckoutForm } from "./CheckoutForm";
 const MainCheckout = () => {
   const { cart, clearCart } = useCart();
   const resturent_fees = 18;
   const navigate = useNavigate();
   const { subtotal, total: amount } = calculateTotals(cart, resturent_fees);
 
-  async function checkoutHandler() {
+  async function checkoutHandler(customerDetails) {
+    console.log("Details", customerDetails);
     try {
       const {
         data: { key },
@@ -18,45 +20,44 @@ const MainCheckout = () => {
       } = await axios.post("http://localhost:3000/payment/checkout", {
         amount,
       });
-      console.log(order);
+
       if (order) {
         const options = {
           key,
           amount: order.amount,
           currency: "INR",
-          name: "Amritpal",
-          description: "Demo Project",
+          name: customerDetails.fullname,
+          description: "Pizza Delivery Payments",
           image: "https://picsum.photos/200",
           order_id: order.id,
           callback_url: "http://localhost:3000/payment/payment_verification",
           prefill: {
-            name: "Amritpal Singh",
-            email: "sonus644@gmail.com",
-            contact: "6280649158",
+            name: customerDetails.fullname,
+            email: customerDetails.email,
+            contact: customerDetails.phone,
           },
           notes: {
-            address: "razorapy official",
+            address: customerDetails.address,
           },
           theme: {
-            color: "#3399cc",
+            color: "#F4C430",
+          },
+          handler: function (response) {
+            if (response.razorpay_payment_id) {
+              clearCart();
+              navigate(`/paymentSuccess/${response.razorpay_order_id}`, {
+                state: response,
+              });
+            }
           },
         };
         const razor = new window.Razorpay(options);
-
-        razor.on("payment.success", (res) => {
-          console.log("Resposnse is here:", res);
-
-          // Clear the cart and local storage when payment is successful
-          clearCart();
-          localStorage.clear();
-        });
         razor.open();
       }
     } catch (error) {
       console.error("Error during checkout:", error);
     }
   }
-
   return (
     <div className="w-10/12 mx-auto my-5">
       <button
@@ -74,7 +75,7 @@ const MainCheckout = () => {
       <div className="container mx-auto mt-8">
         <h2 className="text-3xl font-semibold mb-4">Checkout</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-white p-4 rounded-md shadow-md">
+          <div className="bg-white p-4 rounded-md shadow-md my-10">
             <h3 className="text-xl font-semibold mb-5">Order Summary</h3>
             <div className="h-3/6 overflow-y-auto">
               {cart &&
@@ -103,18 +104,8 @@ const MainCheckout = () => {
               Sub-total : ₹ {subtotal}
             </span>
             <span className="font-semibold text-lg">Total: ₹ {amount}</span>
-            <button
-              type="submit"
-              onClick={checkoutHandler}
-              className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-            >
-              Pay Now
-            </button>
           </div>
-          {/* form  */}
-
-          {/* <CheckoutForm /> */}
-          {/*  */}
+          <CheckoutForm checkoutPayAndPlace={checkoutHandler} />
         </div>
       </div>
     </div>

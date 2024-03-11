@@ -23,7 +23,6 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<HeroPage />} />
             <Route path="signup" element={<Signup />} />
-            <Route path="checkout" element={<MainCheckout />} />
             <Route path="/pizzas/:id?" element={<MainContainer />}>
               <Route path="basket" element={<PizzaSelectorBasket />} />
             </Route>
@@ -37,6 +36,7 @@ function App() {
             <Route path="edit-pizza" element={<EditPizza />} />
           </Route>
           <Route path="/paymentSuccess/:id?" element={<PaymentSuccess />} />
+          <Route path="checkout" element={<MainCheckout />} />
         </Routes>
       </CartProvider>
     </BrowserRouter>
