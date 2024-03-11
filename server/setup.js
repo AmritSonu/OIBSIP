@@ -8,6 +8,7 @@ import { toppingsRouter } from "./Routes/toppingsRoutes.js";
 import { baseTypesRouter } from "./Routes/baseTypeRoutes.js";
 import { cheeseTypesRouter } from "./Routes/cheeseTypeRoutes.js";
 import { sauceTypesRouter } from "./Routes/sauceTypeRoutes.js";
+import { auth } from "./Routes/auth.Routes.js";
 
 // MIDDLEWARES...
 export const setupMiddleware = (app) => {
@@ -28,4 +29,5 @@ export const setupRoutes = (app) => {
     cheeseTypesRouter,
     sauceTypesRouter
   );
+  app.use("/app", auth);
 };
