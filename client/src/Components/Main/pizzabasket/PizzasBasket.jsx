@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useCart } from "../../../slices/useCartContext";
+import { useCart } from "../../../ContextAPIs/useCartContext";
 import { calculateTotals } from "../../../../utils/calculateTotals";
 
 function PizzaSelectorBasket() {

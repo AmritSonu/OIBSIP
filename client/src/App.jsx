@@ -13,8 +13,9 @@ import { AddPizza } from "./AdminComponents/pizzas/AddPizza";
 import { EditPizza } from "./AdminComponents/pizzas/Editpizza";
 import { PizzaStatistics } from "./AdminComponents/pizzaStatistics/PizzaStatistics";
 import { HeroPage } from "./heropage/HeroPage";
-import { CartProvider } from "./slices/CartContext";
+import { CartProvider } from "./ContextAPIs/CartContext";
 import { PaymentSuccess } from "./payments/PaymentSuccess";
+import { Login } from "./Components/userAuth/Login";
 function App() {
   return (
     <BrowserRouter>
@@ -22,7 +23,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HeroPage />} />
-            <Route path="signup" element={<Signup />} />
             <Route path="/pizzas/:id?" element={<MainContainer />}>
               <Route path="basket" element={<PizzaSelectorBasket />} />
             </Route>
@@ -36,6 +36,8 @@ function App() {
             <Route path="edit-pizza" element={<EditPizza />} />
           </Route>
           <Route path="/paymentSuccess/:id?" element={<PaymentSuccess />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="login" element={<Login />} />
           <Route path="checkout" element={<MainCheckout />} />
         </Routes>
       </CartProvider>

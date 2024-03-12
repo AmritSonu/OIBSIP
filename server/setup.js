@@ -12,7 +12,13 @@ import { auth } from "./Routes/auth.Routes.js";
 
 // MIDDLEWARES...
 export const setupMiddleware = (app) => {
-  app.use(cors());
+  // app.use(cors());
+  app.use(
+    cors({
+      origin: "http://localhost:5173",
+      credentials: true,
+    })
+  );
   app.use(express.json());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));

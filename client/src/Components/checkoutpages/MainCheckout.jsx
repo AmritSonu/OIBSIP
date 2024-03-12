@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { calculateTotals } from "../../../utils/calculateTotals";
-import { useCart } from "../../slices/useCartContext";
+import { useCart } from "../../ContextAPIs/useCartContext";
 import { CheckoutForm } from "./CheckoutForm";
 const MainCheckout = () => {
   const { cart, clearCart } = useCart();

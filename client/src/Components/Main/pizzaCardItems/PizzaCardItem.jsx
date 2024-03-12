@@ -12,7 +12,7 @@ import {
   updateTotalPrice,
 } from "../../../slices/orderSlice";
 import { addToBasket } from "../../../slices/basketSlice";
-import { useCart } from "../../../slices/useCartContext";
+import { useCart } from "../../../ContextAPIs/useCartContext";
 
 const sizes = [
   { label: "Normal", value: "normal", priceIncrease: 0 },

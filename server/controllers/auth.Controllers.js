@@ -25,6 +25,7 @@ const register = asyncHandler(async (req, res) => {
       firstname,
       lastname,
       email,
+      
       password: hash,
     });
 

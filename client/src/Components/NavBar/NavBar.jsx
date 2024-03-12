@@ -13,9 +13,9 @@ function NavBar() {
                 ? "text-mainColor-400 transition duration-300 font-bold"
                 : "border-b-2 border-white font-semibold"
             }
-            to="/signUp"
+            to="/login"
           >
-            SignUp
+            login
           </NavLink>
           <NavLink
             className={({ isActive }) =>

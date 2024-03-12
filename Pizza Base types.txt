@@ -230,8 +230,6 @@ Choose an approach that fits the complexity and requirements of your application
 
 *******************************
 
-api secret key = 
-yUoRi0P3BrPn985CcHsS66VK
-
+// const LOGIN_URL = import.meta.env.VITE_USER_LOGIN;
 
 ************************
