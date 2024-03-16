@@ -1,11 +1,10 @@
 import "animate.css";
-import Cookies from "js-cookie";
 import { useForm } from "react-hook-form";
 import { NavLink } from "react-router-dom";
-import { useAppNavigate } from "../../../utils/useAppNavigate";
+// import { useAppNavigate } from "../../../utils/useAppNavigate";
 import { useLoginMutation } from "../../apis/authAPI";
 function Login() {
-  const { goTo } = useAppNavigate();
+  // const { goTo } = useAppNavigate();
   const [login, { data: userLogin, isLoading, error }] = useLoginMutation();
   const {
     register,
@@ -13,18 +12,19 @@ function Login() {
     formState: { errors },
   } = useForm();
 
+  // console.log(userLogin);
+
   const onSubmit = async (data) => {
-    let verifiedToken = null;
+    let isLogin = null;
     try {
       const response = await login(data);
-      verifiedToken = response.data.accessToken;
-      Cookies.set("token", verifiedToken, { expires: 7, secure: true });
+      isLogin = response.data;
     } catch (error) {
       console.error("Login error:", error.message);
     }
-    if (verifiedToken) {
+    if (isLogin) {
       setTimeout(() => {
-        goTo("/pizzas");
+        // goTo("/user");
       }, 2000);
     }
   };

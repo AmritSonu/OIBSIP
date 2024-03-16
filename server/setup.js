@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 import { pizzaRouter } from "./Routes/pizzaRoutes.js";
 import { orderRouter } from "./Routes/orderRoutes.js";
 import { razorpayRouter } from "./Routes/PaymentRoutes.js";
@@ -20,6 +21,7 @@ export const setupMiddleware = (app) => {
     })
   );
   app.use(express.json());
+  app.use(cookieParser());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 };

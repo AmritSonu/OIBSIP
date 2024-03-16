@@ -16,6 +16,10 @@ import { HeroPage } from "./heropage/HeroPage";
 import { CartProvider } from "./ContextAPIs/CartContext";
 import { PaymentSuccess } from "./payments/PaymentSuccess";
 import { Login } from "./Components/userAuth/Login";
+import { CustomerOrderHistory } from "./Components/userAuth/authorders/CustomerOrderHistory";
+import { CustomerOrderPreview } from "./Components/userAuth/authorders/CustomerOrderPreview";
+import { CustomerOrderLayout } from "./Components/userAuth/authorders/CustomerOrderLayout";
+
 function App() {
   return (
     <BrowserRouter>
@@ -39,6 +43,10 @@ function App() {
           <Route path="signup" element={<Signup />} />
           <Route path="login" element={<Login />} />
           <Route path="checkout" element={<MainCheckout />} />
+          <Route path="orders" element={<CustomerOrderLayout />}>
+            <Route path="" element={<CustomerOrderHistory />} />
+            <Route path="prev/:id" element={<CustomerOrderPreview />} />
+          </Route>
         </Routes>
       </CartProvider>
     </BrowserRouter>

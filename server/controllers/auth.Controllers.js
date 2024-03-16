@@ -1,4 +1,3 @@
-import express from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import asyncHandler from "express-async-handler";
@@ -25,7 +24,6 @@ const register = asyncHandler(async (req, res) => {
       firstname,
       lastname,
       email,
-      
       password: hash,
     });
 
@@ -53,7 +51,7 @@ const login = asyncHandler(async (req, res) => {
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({
-        message: "Authentication Failed",
+        message: "Authentication Failed Inavlid Email / Password",
       });
     }
     getUser = user;
@@ -64,10 +62,22 @@ const login = asyncHandler(async (req, res) => {
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: "10h",
+        expiresIn: "35s",
       }
     );
+    // COOKIES
+    if (req.cookies[`${user.userId}`]) {
+      req.cookies[`${user.userId}`] = "";
+    }
+    res.cookie(String(user.userId), jwtToken, {
+      path: "/",
+      expires: new Date(Date.now() + 1000 * 30),
+      httpOnly: true,
+      sameSite: "lax",
+    });
+
     return res.status(200).json({
+      message: "Successfully Logged In",
       accessToken: jwtToken,
       userId: getUser.userId,
     });
@@ -81,10 +91,10 @@ const login = asyncHandler(async (req, res) => {
 
 //USER PROFILE
 const userProfile = asyncHandler(async (req, res) => {
-  const { id } = req.params;
+  const id = req.id;
+  console.log(id);
   try {
     const verifyUser = await User.findOne({ userId: id });
-
     if (!verifyUser) {
       return res.status(403).json({
         message: "User not found",
@@ -92,7 +102,7 @@ const userProfile = asyncHandler(async (req, res) => {
       });
     }
     return res.status(200).json({
-      message: `User ${verifyUser.fullName}`,
+      message: `${verifyUser.firstname} ${verifyUser.lastname}`,
       success: true,
     });
   } catch (error) {
@@ -120,4 +130,31 @@ const users = asyncHandler(async (req, res) => {
   }
 });
 
-export { register, login, userProfile, users };
+// LOGOUT USER
+const logout = (req, res, next) => {
+  // retrieve cookies from headers
+  const cookies = req.headers.cookie;
+  // extract a token
+  const prevToken = cookies.split("=")[1];
+
+  if (!prevToken) {
+    return res.status(400).json({ message: "Couldn't find token" });
+  }
+
+  // verify the token
+
+  jwt.verify(String(prevToken), process.env.JWT_SECRET_KEY, (err, user) => {
+    if (err) {
+      console.log(err);
+      return res.status(403).json({ message: "Authentication failed" });
+    }
+    // res.clearCookie(`${user.userId}`);
+    res.clearCookie(String(user.userId));
+
+    req.cookies[`${user.userId}`] = "";
+
+    return res.status(200).json({ message: "Successfully Logged Out" });
+  });
+};
+
+export { register, login, userProfile, users, logout };
