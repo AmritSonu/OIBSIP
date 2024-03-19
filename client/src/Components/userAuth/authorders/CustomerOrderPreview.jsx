@@ -1,8 +1,14 @@
+import styles from "./order.module.css";
 import { useAppNavigate } from "../../../../utils/useAppNavigate";
-
+const trackOrder = [
+  "Order succes",
+  "Order recieved",
+  "In the kitchen",
+  "Out For Dilevery",
+  "Dilevered Succesfully",
+];
 function CustomerOrderPreview() {
   const { goTo } = useAppNavigate();
-
   function handleBack() {
     goTo(-1);
   }
@@ -33,25 +39,37 @@ function CustomerOrderPreview() {
         {/* delivery step flow  */}
         <div className="flex justify-center gap-5">
           <div className="flex flex-col items-center justify-center w-1/4 gap-7 relative">
-            <div className="h-[50px] w-[2px] bg-orange-400 absolute -top-[5px] z-10"></div>
-
-            <div className="h-[1px] w-48 bg-gray-400 absolute rotate-90 z-2"></div>
-            <span className=" bg-orange-400 rounded-full w-3 h-3 z-20"></span>
-            <span className=" bg-orange-400 rounded-full w-3 h-3 z-20"></span>
-            <span className=" bg-orange-400 rounded-full w-3 h-3 z-20"></span>
-            <span className=" bg-orange-400 rounded-full w-3 h-3 z-20"></span>
-            <span className=" bg-orange-400 rounded-full w-3 h-3 z-20"></span>
+            <div className="h-[1px] w-48 bg-gray-500 absolute rotate-90 z-2"></div>
+            {trackOrder.map((eachTrack, index) => (
+              <div
+                key={index}
+                className={`bg-mainAdditionalcolor-150 rounded-full w-3 h-3 z-20
+                ${
+                  eachTrack == "Out For Dilevery"
+                    ? `ml-2 ${styles.orderDot}`
+                    : ""
+                }
+                `}
+              ></div>
+            ))}
           </div>
-          <div className="flex flex-col font-semibold justify-start w-1/4 gap-4 -ml-36 z-20">
-            <span className="text-gray-700">Order succes</span>
-            <span className="text-gray-700">Order recieved</span>
-            <span className="text-gray-700">In the kitchen</span>
-            <span className="text-gray-300">Out For Devilery</span>
-            <span className="text-gray-300">Devilered Succesfully</span>
+          <div className="flex flex-col justify-start w-1/4 gap-4 -ml-36 z-20">
+            {trackOrder.map((eachTrack, index) => (
+              <span
+                key={index}
+                className={`text-gray-700 ${
+                  eachTrack == "Out For Dilevery"
+                    ? `text-lg ${styles.MyCustomFonts}`
+                    : ""
+                }`}
+              >
+                {eachTrack}
+              </span>
+            ))}
           </div>
         </div>
         <div className="w-3/4">
-          <h1 className="text-lg font-semibold">Order Tracking</h1>
+          <h1 className="text-lg font-semibold my-2">Order Tracking</h1>
         </div>
         <span className="text-gray-500">Total Bill: $45</span>
       </div>
@@ -62,5 +80,4 @@ function CustomerOrderPreview() {
     </div>
   );
 }
-
 export { CustomerOrderPreview };

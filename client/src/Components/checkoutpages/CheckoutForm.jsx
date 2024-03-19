@@ -1,7 +1,10 @@
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { setCustomerDetails } from "../../slices/finalorderSlice";
 
 function CheckoutForm({ checkoutPayAndPlace }) {
+  const dispatch = useDispatch();
   const {
     handleSubmit,
     register,
@@ -11,7 +14,7 @@ function CheckoutForm({ checkoutPayAndPlace }) {
   const onSubmit = (data) => {
     // Handle form submission
     checkoutPayAndPlace(data);
-    // console.log(data);
+    dispatch(setCustomerDetails(data));
   };
 
   const validateAddress = (value) => {

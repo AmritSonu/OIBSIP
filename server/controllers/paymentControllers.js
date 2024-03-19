@@ -1,7 +1,7 @@
 import Razorpay from "razorpay";
 import crypto from "crypto";
 import dotenv from "dotenv";
-import { Payment } from "../Models/paymentModel.js";
+import { Payments } from "../Models/paymentModel.js";
 dotenv.config();
 
 const instance = new Razorpay({
@@ -29,7 +29,7 @@ const getOrder = async (req, res) => {
 const paymentVerification = async (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
     req.body;
-  // console.log(req.body);
+  console.log(req.body);
   try {
     const string = `${razorpay_order_id}|${razorpay_payment_id}`;
 
@@ -39,14 +39,14 @@ const paymentVerification = async (req, res) => {
       .digest("hex");
     const isAuth = generated_signature === razorpay_signature;
     if (isAuth) {
-      await Payment.create({
+      const data = await Payments.create({
         razorpay_order_id,
         razorpay_payment_id,
         razorpay_signature,
       });
-
+      console.log(data);
       return res.redirect(
-        `http://localhost:5173/paymentSuccess/confirm?reference=${razorpay_payment_id}?`
+        `http://localhost:5173/paymentSuccess/${razorpay_payment_id}?`
       );
     }
   } catch (error) {

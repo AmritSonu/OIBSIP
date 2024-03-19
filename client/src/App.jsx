@@ -39,7 +39,7 @@ function App() {
             <Route path="add-pizza" element={<AddPizza />} />
             <Route path="edit-pizza" element={<EditPizza />} />
           </Route>
-          <Route path="/paymentSuccess/:id?" element={<PaymentSuccess />} />
+          <Route path="/paymentSuccess/:id" element={<PaymentSuccess />} />
           <Route path="signup" element={<Signup />} />
           <Route path="login" element={<Login />} />
           <Route path="checkout" element={<MainCheckout />} />

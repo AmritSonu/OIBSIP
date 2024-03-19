@@ -3,14 +3,20 @@ import { useNavigate } from "react-router-dom";
 import { calculateTotals } from "../../../utils/calculateTotals";
 import { useCart } from "../../ContextAPIs/useCartContext";
 import { CheckoutForm } from "./CheckoutForm";
+import { useDispatch } from "react-redux";
+import { addOrder, setTotalPrice } from "../../slices/finalorderSlice";
 const MainCheckout = () => {
-  const { cart, clearCart } = useCart();
+  const dispatach = useDispatch();
+  const { cart } = useCart();
   const resturent_fees = 18;
   const navigate = useNavigate();
   const { subtotal, total: amount } = calculateTotals(cart, resturent_fees);
 
+  dispatach(setTotalPrice(amount));
+  dispatach(addOrder(cart));
+  // console.log(cart);
+
   async function checkoutHandler(customerDetails) {
-    console.log("Details", customerDetails);
     try {
       const {
         data: { key },
@@ -42,13 +48,8 @@ const MainCheckout = () => {
           theme: {
             color: "#F4C430",
           },
-          handler: function (response) {
-            if (response.razorpay_payment_id) {
-              clearCart();
-              navigate(`/paymentSuccess/${response.razorpay_order_id}`, {
-                state: response,
-              });
-            }
+          handler: async function (res) {
+            console.log("success", res);
           },
         };
         const razor = new window.Razorpay(options);
@@ -92,7 +93,7 @@ const MainCheckout = () => {
                       />
                       <p>{item.PizzaName}</p>
                     </div>
-                    <p> - ₹ {item.totalPrice}</p>
+                    <p> ₹ {item.totalPrice}</p>
                   </div>
                 ))}
             </div>

@@ -3,36 +3,14 @@ import { Order } from "../Models/orderModel.js";
 
 const createOrder = async (req, res) => {
   try {
-    const {
-      ordered_pizza,
-      ordered_sauce,
-      ordered_cheese,
-      ordered_base,
-      ordered_toppings,
-      customer_address,
-      order_status,
-    } = req.body;
-    // Check if an order with the same ordered_pizza already exists
-    const existingOrder = await Order.findOne({ ordered_pizza });
-
-    if (existingOrder) {
-      return res
-        .status(400)
-        .json({ error: "Order with this pizza already exists" });
-    }
-
+    const { order_status, order, customer_details, totalPrice } = req.body;
     const newOrder = new Order({
-      ordered_pizza,
-      ordered_sauce,
-      ordered_cheese,
-      ordered_base,
-      ordered_toppings,
-      customer_address,
       order_status,
+      order,
+      customer_details,
+      totalPrice,
     });
-
     const savedOrder = await newOrder.save();
-
     res.status(201).json(savedOrder);
   } catch (error) {
     console.error(error);
@@ -74,3 +52,42 @@ const getOrders = async (req, res) => {
   }
 };
 export { createOrder, getOrderById, getOrders };
+
+// const createOrder = async (req, res) => {
+//   try {
+//     const {
+//       ordered_pizza,
+//       ordered_sauce,
+//       ordered_cheese,
+//       ordered_base,
+//       ordered_toppings,
+//       customer_address,
+//       order_status,
+//     } = req.body;
+//     // Check if an order with the same ordered_pizza already exists
+//     const existingOrder = await Order.findOne({ ordered_pizza });
+
+//     if (existingOrder) {
+//       return res
+//         .status(400)
+//         .json({ error: "Order with this pizza already exists" });
+//     }
+
+//     const newOrder = new Order({
+//       ordered_pizza,
+//       ordered_sauce,
+//       ordered_cheese,
+//       ordered_base,
+//       ordered_toppings,
+//       customer_address,
+//       order_status,
+//     });
+
+//     const savedOrder = await newOrder.save();
+
+//     res.status(201).json(savedOrder);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };

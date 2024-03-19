@@ -119,5 +119,4 @@ function CustomerOrderHistory() {
     </div>
   );
 }
-
 export { CustomerOrderHistory };

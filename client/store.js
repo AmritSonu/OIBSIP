@@ -7,6 +7,7 @@ import { pizzasApi } from "./src/apis/pizzasAPI";
 import { orderApi } from "./src/apis/orderAPI";
 import orderReducer from "./src/slices/orderSlice";
 import basketSlice from "./src/slices/basketSlice";
+import finalorderSlice from "./src/slices/finalorderSlice";
 export const store = configureStore({
   reducer: {
     [ingredientsApi.reducerPath]: ingredientsApi.reducer,
@@ -15,6 +16,7 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     order: orderReducer,
     basket: basketSlice,
+    finalorder: finalorderSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(

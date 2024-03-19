@@ -1,14 +1,18 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "animate.css";
+import { useCart } from "../ContextAPIs/useCartContext";
 
 const PaymentSuccess = () => {
-  const { state: orderDetails } = useLocation();
   const navigate = useNavigate();
+  const { clearCart } = useCart();
+  let { id: paymentId } = useParams();
 
   function handlebackButton() {
     navigate("/pizzas");
   }
-
+  if (paymentId) {
+    clearCart();
+  }
   return (
     <div className="flex items-center justify-center h-screen bg-green-200">
       <div className="animate__animated animate__fadeIn animate__zoomIn bg-white p-8 rounded-lg shadow-md max-w-md w-full">
@@ -34,8 +38,7 @@ const PaymentSuccess = () => {
           Your Order is placed 😊
         </p>
         <div className="flex flex-col gap-5 my-5">
-          <span>Yours Track Order ID : {orderDetails.razorpay_order_id}</span>
-          <span>Yours Order ID : {orderDetails.razorpay_payment_id}</span>
+          <span>Yours Payment ID : {paymentId}</span>
         </div>
         <p className="text-gray-600 mt-2 text-lg font-serif">
           Thank you for your purchase.

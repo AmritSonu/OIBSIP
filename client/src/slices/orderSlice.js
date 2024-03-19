@@ -84,5 +84,4 @@ export const {
 export const selectOrder = (state) => state.order;
 export const selectCheeseId = (state) => state.order.cheeseId;
 export const totalPizzaPrice = (state) => state.order.totalPrice;
-// export const resetFullorder = (state) => state.order.resetOrder;
 export default orderSlice.reducer;
