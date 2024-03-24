@@ -1,7 +1,7 @@
 // orderController.js
 import mongoose from "mongoose";
 import { Order } from "../Models/orderModel.js";
-import { PaymentAndOrder } from "../Models/paymentModel.js";
+import { Payment } from "../Models/paymentModel.js";
 
 const createOrder = async (req, res) => {
   try {
@@ -56,20 +56,34 @@ const getOrders = async (req, res) => {
 const getCustomerOrders = async (req, res) => {
   const { userId } = req.body;
   parseInt(userId);
-  console.log(userId);
+  // console.log(userId);
   try {
-    // console.log(userIdObjectId);
-    const order = await PaymentAndOrder.find({ userId }).select(
-      "-razorpay_payment_id -razorpay_signature"
+    // Find all orders
+    const orders = await Order.find({ userId });
+
+    if (!orders) {
+      return res.status(404).json({ error: "No orders found" });
+    }
+    // Extract order ids
+    const orderIds = orders.map((order) => order.orderId);
+
+    // Find payments with matching orderIds
+    const payments = await Payment.find({ orderId: { $in: orderIds } }).select(
+      "-razorpay_signature"
     );
 
-    if (!order) {
-      return res.status(404).json({ error: "Order not found" });
-    }
+    // Map payments to their corresponding orders
+    const ordersWithPayments = orders.map((order) => {
+      const orderPayments = payments.filter(
+        (payment) => payment.orderId === order.orderId
+      );
+      return { ...order.toObject(), payments: orderPayments };
+    });
+
     res.status(200).json({
       statusbar: 200,
-      orderLength: order.length,
-      order,
+      totalLength: ordersWithPayments.length,
+      ordersWithPayments,
     });
   } catch (error) {
     console.error(error);

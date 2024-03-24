@@ -10,6 +10,9 @@ const PaymentSuccess = () => {
   function handlebackButton() {
     navigate("/pizzas");
   }
+  function handleOrderList() {
+    navigate("/orders");
+  }
   if (paymentId) {
     clearCart();
   }
@@ -49,6 +52,13 @@ const PaymentSuccess = () => {
         >
           Continue Shopping
         </button>
+        <button
+          onClick={handleOrderList}
+          className="mt-6 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:border-green-300 animate__animated animate__slideInUp animate__pulse"
+        >
+          Continue Shopping
+        </button>
+
         <div className="animate__animated animate__slideInRight animate__delay-1s">
           <svg
             xmlns="http://www.w3.org/2000/svg"

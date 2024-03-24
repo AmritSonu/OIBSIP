@@ -1,17 +1,27 @@
-import styles from "./order.module.css";
 import { useAppNavigate } from "../../../../utils/useAppNavigate";
+import { useLocation } from "react-router-dom";
+import styles from "./order.module.css";
+
 const trackOrder = [
-  "Order succes",
-  "Order recieved",
+  "success",
+  "Order received",
   "In the kitchen",
-  "Out For Dilevery",
-  "Dilevered Succesfully",
+  "Out For Delivery",
+  "Delivered Successfully",
 ];
+
 function CustomerOrderPreview() {
   const { goTo } = useAppNavigate();
+  const { state } = useLocation();
+  const { order } = state;
+  console.log(order);
   function handleBack() {
     goTo(-1);
   }
+  if (!order) {
+    return <div>No order data available</div>;
+  }
+
   return (
     <div className="bg-gray-100 min-h-screen p-4">
       <div className="bg-red-200 flex items-center justify-between px-5 py-3">
@@ -31,25 +41,23 @@ function CustomerOrderPreview() {
             />
           </svg>
         </button>
-        <h2 className="text-xl font-semibold">Orders Preview</h2>
+        <h2 className="text-xl font-semibold">Order Preview</h2>
       </div>
       <div className="p-4 my-4 bg-white rounded-lg shadow-md">
-        <h3 className="text-lg font-semibold">Order ID: 55555555</h3>
-        <p className="text-gray-500">Today</p>
-        {/* delivery step flow  */}
+        <h3 className="text-lg font-semibold">Order ID: {order.orderId}</h3>
+        <p className="text-gray-500">Order Date: {order.orderDate}</p>
+        {/* Delivery step flow */}
         <div className="flex justify-center gap-5">
           <div className="flex flex-col items-center justify-center w-1/4 gap-7 relative">
             <div className="h-[1px] w-48 bg-gray-500 absolute rotate-90 z-2"></div>
             {trackOrder.map((eachTrack, index) => (
               <div
                 key={index}
-                className={`bg-mainAdditionalcolor-150 rounded-full w-3 h-3 z-20
-                ${
-                  eachTrack == "Out For Dilevery"
+                className={`bg-mainAdditionalcolor-150 rounded-full w-3 h-3 z-20 ${
+                  eachTrack === order.order_status
                     ? `ml-2 ${styles.orderDot}`
                     : ""
-                }
-                `}
+                }`}
               ></div>
             ))}
           </div>
@@ -58,7 +66,7 @@ function CustomerOrderPreview() {
               <span
                 key={index}
                 className={`text-gray-700 ${
-                  eachTrack == "Out For Dilevery"
+                  eachTrack === order.order_status
                     ? `text-lg ${styles.MyCustomFonts}`
                     : ""
                 }`}
@@ -71,13 +79,23 @@ function CustomerOrderPreview() {
         <div className="w-3/4">
           <h1 className="text-lg font-semibold my-2">Order Tracking</h1>
         </div>
-        <span className="text-gray-500">Total Bill: $45</span>
+        <span className="text-gray-500 font-bold">
+          Total Bill: ₹ {order.totalOrderAmount}
+        </span>
       </div>
       <div className="p-4 my-4 bg-white rounded-lg shadow-md">
-        <span className="text-lg font-semibold">Payment Method</span>
-        <p>By UPI</p>
+        <span className="text-lg font-semibold">Payment Method - Online</span>
+        <div className="flex gap-3">
+          <span>Payment Id: </span>
+          <span>{order.payments[0].paymentStatus}</span>
+        </div>
+        <div className="flex gap-3">
+          <span>Payment Id: </span>
+          <span>{order.payments[0].razorpay_payment_id}</span>
+        </div>
       </div>
     </div>
   );
 }
+
 export { CustomerOrderPreview };

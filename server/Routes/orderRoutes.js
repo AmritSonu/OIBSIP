@@ -6,7 +6,6 @@ import {
   getOrderById,
   getOrders,
 } from "../controllers/orderControllers.js";
-
 const orderRouter = express.Router();
 
 // Route to create a new order

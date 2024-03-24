@@ -1,7 +1,8 @@
 import Razorpay from "razorpay";
 import crypto from "crypto";
 import dotenv from "dotenv";
-import { PaymentAndOrder } from "../Models/paymentModel.js";
+import { Payment } from "../Models/paymentModel.js";
+import { Order } from "../Models/orderModel.js";
 dotenv.config();
 
 // Checkout ..
@@ -11,26 +12,26 @@ const getOrder = async (req, res) => {
     key_secret: process.env.RAZORPAY_SECRET_KEY,
   });
   const { amount, customerOrder, userId } = req.body.razor;
-  const { order, customer_details, totalPrice } = customerOrder;
-  const customerOrderCheckout = {
-    order_status: "success",
-    total_order_items: order,
-    customer_details: customer_details,
-    totalOrderAmount: totalPrice,
-  };
+  const { order: customerOrderedItems, customer, totalPrice } = customerOrder;
+
   try {
     const options = {
       amount: Number(amount * 100),
       currency: "INR",
     };
     const order = await instance.orders.create(options);
-    const checkoutDetails = await PaymentAndOrder.create({
+    await Order.create({
       userId: userId,
-      order: customerOrderCheckout,
       orderId: order.id,
-      orderAmount: amount,
+      order_status: "success",
+      total_order_items: customerOrderedItems,
+      customer_details: customer,
+      totalOrderAmount: totalPrice,
     });
-    console.log(checkoutDetails);
+    await Payment.create({
+      orderAmount: amount,
+      orderId: order.id,
+    });
     res.json({
       success: true,
       order,
@@ -52,7 +53,7 @@ const paymentVerification = async (req, res) => {
     const isAuth = generated_signature === razorpay_signature;
 
     if (isAuth) {
-      await PaymentAndOrder.findOneAndUpdate(
+      await Payment.findOneAndUpdate(
         { orderId: razorpay_order_id },
         {
           razorpay_order_id,
