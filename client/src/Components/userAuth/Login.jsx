@@ -12,8 +12,12 @@ function Login() {
     formState: { errors },
   } = useForm();
 
-  // console.log(userLogin);
+  if (userLogin) {
+    const { userId } = userLogin;
+    console.log(userId);
 
+    localStorage.setItem("user_info", JSON.stringify(userId));
+  }
   const onSubmit = async (data) => {
     let isLogin = null;
     try {

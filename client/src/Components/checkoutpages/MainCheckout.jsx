@@ -11,12 +11,17 @@ const MainCheckout = () => {
   const resturent_fees = 18;
   const navigate = useNavigate();
   const { subtotal, total: amount } = calculateTotals(cart, resturent_fees);
-
   dispatach(setTotalPrice(amount));
   dispatach(addOrder(cart));
-  // console.log(cart);
 
+  const storedOrderInfo = localStorage.getItem("orderInformation");
+  const customerOrder = JSON.parse(storedOrderInfo);
+
+  const userInfo = localStorage.getItem("user_info");
+  const userId = JSON.parse(userInfo);
   async function checkoutHandler(customerDetails) {
+    console.log(userId);
+    console.log(customerOrder);
     try {
       const {
         data: { key },
@@ -24,9 +29,8 @@ const MainCheckout = () => {
       const {
         data: { order },
       } = await axios.post("http://localhost:3000/payment/checkout", {
-        amount,
+        razor: { amount, customerOrder, userId },
       });
-
       if (order) {
         const options = {
           key,
@@ -48,13 +52,11 @@ const MainCheckout = () => {
           theme: {
             color: "#F4C430",
           },
-          handler: async function (res) {
-            console.log("success", res);
-          },
         };
         const razor = new window.Razorpay(options);
         razor.open();
       }
+      // console.log(order);
     } catch (error) {
       console.error("Error during checkout:", error);
     }

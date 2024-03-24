@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCustomerDetails } from "../../slices/finalorderSlice";
 
 function CheckoutForm({ checkoutPayAndPlace }) {
@@ -10,11 +10,21 @@ function CheckoutForm({ checkoutPayAndPlace }) {
     register,
     formState: { errors },
   } = useForm();
-
+  const finalOrderState = useSelector((state) => state.finalorder);
+  const { order_status, order, totalPrice } = finalOrderState;
+  // console.log(orderInformation);
   const onSubmit = (data) => {
     // Handle form submission
     checkoutPayAndPlace(data);
     dispatch(setCustomerDetails(data));
+    const orderInformation = {
+      order_status,
+      order,
+      customer: data,
+      totalPrice,
+    };
+
+    localStorage.setItem("orderInformation", JSON.stringify(orderInformation));
   };
 
   const validateAddress = (value) => {

@@ -62,7 +62,7 @@ const login = asyncHandler(async (req, res) => {
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: "35s",
+        expiresIn: "1h",
       }
     );
     // COOKIES
@@ -79,7 +79,7 @@ const login = asyncHandler(async (req, res) => {
     return res.status(200).json({
       message: "Successfully Logged In",
       accessToken: jwtToken,
-      userId: getUser.userId,
+      userId: user._id,
     });
   } catch (err) {
     return res.status(401).json({

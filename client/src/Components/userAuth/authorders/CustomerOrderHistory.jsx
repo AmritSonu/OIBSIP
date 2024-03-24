@@ -1,5 +1,6 @@
 import { truncatedContent } from "../../../../utils/truncateContent";
 import { useAppNavigate } from "../../../../utils/useAppNavigate";
+import { useGetCustomerOrdersQuery } from "../../../apis/authAPI";
 // import { useGetProfileQuery } from "../../apis/authAPI";
 
 const orders = [
@@ -35,16 +36,18 @@ const orders = [
 
 function CustomerOrderHistory() {
   const { goTo } = useAppNavigate();
-  // const { data: logedUser, isLoading, error } = useGetProfileQuery();
+  const userId = JSON.parse(localStorage.getItem("user_info"));
+  const {
+    data: customerOrders,
+    error,
+    isLoading,
+  } = useGetCustomerOrdersQuery(userId);
 
-  // if (isLoading) {
-  //   return <div>Loading...</div>;
-  // }
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>An error occurred</div>;
 
-  // if (error) {
-  //   return <div>Something went wrong while logging in {error.status}</div>;
-  // }
-
+  // console.log(customerOrders.order[0].order.total_order_items[0]);
+  console.log(customerOrders);
   function handleBack() {
     goTo(-1);
   }
@@ -73,6 +76,9 @@ function CustomerOrderHistory() {
         </button>
         <h2 className="text-xl font-semibold">My Orders</h2>
       </div>
+      {/* {customerOrders.order.order((eachorder) => (
+        <div>{eachorder}</div>
+      ))} */}
       {orders.map((eachOrder, index) => (
         <div
           className="flex justify-center"

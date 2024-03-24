@@ -21,6 +21,13 @@ export const authApi = createApi({
         body: credentials,
       }),
     }),
+    getCustomerOrders: builder.query({
+      query: (userId) => ({
+        url: "/get_customer_orders",
+        method: "POST",
+        body: { userId },
+      }),
+    }),
     getProfile: builder.query({
       query: () => ({
         url: "/profile",
@@ -30,5 +37,8 @@ export const authApi = createApi({
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation, useGetProfileQuery } =
-  authApi;
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useGetCustomerOrdersQuery,
+} = authApi;

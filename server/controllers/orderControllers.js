@@ -1,5 +1,7 @@
 // orderController.js
+import mongoose from "mongoose";
 import { Order } from "../Models/orderModel.js";
+import { PaymentAndOrder } from "../Models/paymentModel.js";
 
 const createOrder = async (req, res) => {
   try {
@@ -51,7 +53,31 @@ const getOrders = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-export { createOrder, getOrderById, getOrders };
+const getCustomerOrders = async (req, res) => {
+  const { userId } = req.body;
+  parseInt(userId);
+  console.log(userId);
+  try {
+    // console.log(userIdObjectId);
+    const order = await PaymentAndOrder.find({ userId }).select(
+      "-razorpay_payment_id -razorpay_signature"
+    );
+
+    if (!order) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+    res.status(200).json({
+      statusbar: 200,
+      orderLength: order.length,
+      order,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export { createOrder, getOrderById, getOrders, getCustomerOrders };
 
 // const createOrder = async (req, res) => {
 //   try {
