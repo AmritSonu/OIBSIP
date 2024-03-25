@@ -7,7 +7,7 @@ import { PizzaSelectorBasket } from "./Components/Main/pizzabasket/PizzasBasket"
 import { Signup } from "./Components/userAuth/Signup";
 import { MainCheckout } from "./Components/checkoutpages/MainCheckout";
 import { MainAdmin } from "./AdminComponents/admin/MainAdmin";
-import { Orders } from "./AdminComponents/orders/Orders";
+import { Orders } from "./AdminComponents/orders/AllOrders";
 import { Ingredients } from "./AdminComponents/ingredients/Ingredients";
 import { AddPizza } from "./AdminComponents/pizzas/AddPizza";
 import { EditPizza } from "./AdminComponents/pizzas/Editpizza";

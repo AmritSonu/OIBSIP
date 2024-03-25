@@ -90,8 +90,48 @@ const getCustomerOrders = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+const getAllOrders = async (req, res) => {
+  try {
+    // Find all orders
+    const orders = await Order.find({});
 
-export { createOrder, getOrderById, getOrders, getCustomerOrders };
+    if (!orders) {
+      return res.status(404).json({ error: "No orders found" });
+    }
+    // Extract order ids
+    const orderIds = orders.map((order) => order.orderId);
+
+    // Find payments with matching orderIds
+    const payments = await Payment.find({ orderId: { $in: orderIds } }).select(
+      "-razorpay_signature"
+    );
+
+    // Map payments to their corresponding orders
+    const ordersWithPayments = orders.map((order) => {
+      const orderPayments = payments.filter(
+        (payment) => payment.orderId === order.orderId
+      );
+      return { ...order.toObject(), payments: orderPayments };
+    });
+
+    res.status(200).json({
+      statusbar: 200,
+      totalLength: ordersWithPayments.length,
+      allOrders: ordersWithPayments,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export {
+  createOrder,
+  getOrderById,
+  getOrders,
+  getCustomerOrders,
+  getAllOrders,
+};
 
 // const createOrder = async (req, res) => {
 //   try {

@@ -1,19 +1,18 @@
-// src/apis/orderAPI.js
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const orderApi = createApi({
-  reducerPath: "orderApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/app/" }),
+// Define the base URL for your API
+const baseURL = "http://localhost:3000/app";
 
+// Define an API slice
+export const ordersApi = createApi({
+  reducerPath: "ordersApi",
+  baseQuery: fetchBaseQuery({ baseUrl: baseURL }),
   endpoints: (builder) => ({
-    submitOrder: builder.mutation({
-      query: (orderData) => ({
-        url: "create_order",
-        method: "POST",
-        body: orderData,
-      }),
+    getAllOrders: builder.query({
+      query: () => "get_all_orders",
     }),
   }),
 });
 
-export const { useSubmitOrderMutation } = orderApi;
+// Export hooks for usage in functional components
+export const { useGetAllOrdersQuery } = ordersApi;

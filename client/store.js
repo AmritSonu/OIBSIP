@@ -4,15 +4,15 @@ import { setupListeners } from "@reduxjs/toolkit/query/react";
 import { ingredientsApi } from "./src/apis/ingredientsAPI";
 import { authApi } from "./src/apis/authAPI";
 import { pizzasApi } from "./src/apis/pizzasAPI";
-import { orderApi } from "./src/apis/orderAPI";
 import orderReducer from "./src/slices/orderSlice";
 import basketSlice from "./src/slices/basketSlice";
 import finalorderSlice from "./src/slices/finalorderSlice";
+import { ordersApi } from "./src/apis/orderAPI";
 export const store = configureStore({
   reducer: {
     [ingredientsApi.reducerPath]: ingredientsApi.reducer,
     [pizzasApi.reducerPath]: pizzasApi.reducer,
-    [orderApi.reducerPath]: orderApi.reducer,
+    [ordersApi.reducerPath]: ordersApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
     order: orderReducer,
     basket: basketSlice,
@@ -22,7 +22,7 @@ export const store = configureStore({
     getDefaultMiddleware().concat(
       ingredientsApi.middleware,
       pizzasApi.middleware,
-      orderApi.middleware,
+      ordersApi.middleware,
       authApi.middleware
     ),
 });

@@ -44,8 +44,19 @@ function CustomerOrderPreview() {
         <h2 className="text-xl font-semibold">Order Preview</h2>
       </div>
       <div className="p-4 my-4 bg-white rounded-lg shadow-md">
-        <h3 className="text-lg font-semibold">Order ID: {order.orderId}</h3>
-        <p className="text-gray-500">Order Date: {order.orderDate}</p>
+        <h1 className="font-bold text-2xl font-serif">
+          Order Name:
+          {order.total_order_items.map((eachPizzaItem, index) => (
+            <span key={eachPizzaItem._id} className="ml-2">
+              {eachPizzaItem.PizzaName}
+              {index !== order.total_order_items.length - 1 && ","}
+            </span>
+          ))}
+        </h1>
+        {/* order */}
+        <h1 className="text-lg font-semibold text-center my-10 font-serif underline">
+          Order Tracking
+        </h1>
         {/* Delivery step flow */}
         <div className="flex justify-center gap-5">
           <div className="flex flex-col items-center justify-center w-1/4 gap-7 relative">
@@ -76,26 +87,20 @@ function CustomerOrderPreview() {
             ))}
           </div>
         </div>
-        <div className="w-3/4">
-          <h1 className="text-lg font-semibold my-2">Order Tracking</h1>
+
+        <div className="text-gray-700 font-semibold flex flex-col gap-2 my-6 mx-5">
+          <span>Total Bill: ₹{order.totalOrderAmount}</span>
+          <span>Order Date: {order.orderDate}</span>
+          <span>Order ID: {order.orderId}</span>
         </div>
-        <span className="text-gray-500 font-bold">
-          Total Bill: ₹ {order.totalOrderAmount}
-        </span>
       </div>
-      <div className="p-4 my-4 bg-white rounded-lg shadow-md">
-        <span className="text-lg font-semibold">Payment Method - Online</span>
-        <div className="flex gap-3">
-          <span>Payment Id: </span>
-          <span>{order.payments[0].paymentStatus}</span>
-        </div>
-        <div className="flex gap-3">
-          <span>Payment Id: </span>
-          <span>{order.payments[0].razorpay_payment_id}</span>
-        </div>
+
+      <div className="py-4 my-4 bg-white rounded-lg shadow-md flex flex-col gap-3 font-semibold text-gray-700 px-6">
+        <span>Payment Method - Online</span>
+        <span>Payment Status: {order.payments[0].paymentStatus}</span>
+        <span>Payment Id: {order.payments[0].razorpay_payment_id}</span>
       </div>
     </div>
   );
 }
-
 export { CustomerOrderPreview };
