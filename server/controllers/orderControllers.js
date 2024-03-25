@@ -125,12 +125,57 @@ const getAllOrders = async (req, res) => {
   }
 };
 
+const updateOrderStatusByOrderId = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const { order_status } = req.body;
+
+    const updatedOrder = await Order.findByIdAndUpdate(
+      orderId,
+      { order_status },
+      { new: true }
+    );
+
+    if (!updatedOrder) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+
+    res.json({
+      message: "Order status updated successfully",
+      order: updatedOrder,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const orderDelivered = async (req, res) => {
+  try {
+    // Fetch orders from the database where order_status is "delivered_successfully"
+    const completedOrders = await Order.find({
+      order_status: "delivered_successfully",
+    });
+
+    res.status(200).json({
+      statusbar: 200,
+      totalCompletedOrders: completedOrders.length,
+      completedOrders,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 export {
   createOrder,
   getOrderById,
   getOrders,
   getCustomerOrders,
   getAllOrders,
+  updateOrderStatusByOrderId,
+  orderDelivered,
 };
 
 // const createOrder = async (req, res) => {

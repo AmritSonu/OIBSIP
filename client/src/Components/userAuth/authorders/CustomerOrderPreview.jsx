@@ -3,11 +3,11 @@ import { useLocation } from "react-router-dom";
 import styles from "./order.module.css";
 
 const trackOrder = [
-  "success",
-  "Order received",
-  "In the kitchen",
-  "Out For Delivery",
-  "Delivered Successfully",
+  "order_success",
+  "order_received",
+  "in_the_kitchen",
+  "Out_for_delivery",
+  "delivered_successfully",
 ];
 
 function CustomerOrderPreview() {

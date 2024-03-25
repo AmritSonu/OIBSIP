@@ -1,31 +1,46 @@
-function OrderCompleted() {
-  // Sample order data
-  const sampleOrder = [
-    { id: 1, item: "Veg Pizza", quantity: 2, price: 15.99 },
-    { id: 2, item: "Margherita Pizza", quantity: 1, price: 12.99 },
-    { id: 3, item: "Pepperoni Pizza", quantity: 3, price: 18.99 },
-  ];
+import { useGetDeliveredOrdersQuery } from "../../apis/orderAPI";
 
-  // Calculate total price
-  const totalAmount = sampleOrder.reduce(
-    (acc, order) => acc + order.quantity * order.price,
+function OrderCompleted() {
+  const { data: orders, error, isLoading } = useGetDeliveredOrdersQuery();
+
+  if (isLoading) return <div className="text-center mt-8">Loading...</div>;
+  if (error) return <div className="text-center mt-8">An error occurred</div>;
+
+  // Calculate total of all prices
+  const totalAllPrices = orders.completedOrders.reduce(
+    (total, order) => total + order.totalOrderAmount,
     0
   );
 
   return (
     <div className="mt-8">
-      <h1 className="text-3xl font-bold mb-4">Order Completed</h1>
+      <h1 className="text-3xl font-bold mb-4">All Completed Orders</h1>
       <div>
-        <ul className="list-disc pl-4">
-          {sampleOrder.map((order) => (
-            <li key={order.id} className="mb-2">
-              <span className="font-bold">{order.item}</span> - Quantity:{" "}
-              {order.quantity}, Price: ${order.price.toFixed(2)}
+        <ul className="space-y-4">
+          {orders.completedOrders.map((order) => (
+            <li key={order._id} className="border rounded-lg p-4">
+              <div className="flex justify-between">
+                <div className="font-bold">
+                  {order.total_order_items.map((item) => (
+                    <span key={item._id}>{item.PizzaName}, </span>
+                  ))}
+                </div>
+                <div>Quantity: {order.total_order_items.length}</div>
+              </div>
+              <div className="mt-2">
+                <div>Total Amount: ₹{order.totalOrderAmount.toFixed(2)}</div>
+                <div className="text-sm text-gray-500">
+                  Order ID: {order.orderId}
+                </div>
+                <div className="text-sm text-gray-500">
+                  Order Date: {new Date(order.orderDate).toLocaleString()}
+                </div>
+              </div>
             </li>
           ))}
         </ul>
-        <div className="mt-4">
-          <strong>Total Amount:</strong> ${totalAmount.toFixed(2)}
+        <div className="mt-6 font-bold text-lg">
+          Total of All Prices: ₹{totalAllPrices.toFixed(2)}
         </div>
       </div>
     </div>

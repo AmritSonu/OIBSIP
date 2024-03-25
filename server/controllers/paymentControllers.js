@@ -23,7 +23,7 @@ const getOrder = async (req, res) => {
     await Order.create({
       userId: userId,
       orderId: order.id,
-      order_status: "success",
+      order_status: "order_success",
       total_order_items: customerOrderedItems,
       customer_details: customer,
       totalOrderAmount: totalPrice,

@@ -1,20 +1,34 @@
 import { useEffect } from "react";
 import { OrderCompleted } from "./OrderCompleted";
-import { useGetAllOrdersQuery } from "../../apis/orderAPI";
+import {
+  useGetAllOrdersQuery,
+  useUpdateOrderStatusMutation,
+} from "../../apis/orderAPI";
 import { AdminOrdersSkeleton } from "../../../utils/PizzaSkeleton";
 
 function Orders() {
   const { data: orders, error, isLoading, refetch } = useGetAllOrdersQuery();
+  const [updateOrderStatus] = useUpdateOrderStatusMutation();
 
   useEffect(() => {
     refetch();
   }, [refetch]);
 
+  const handleStatusChange = async (orderId, newStatus) => {
+    try {
+      const data = await updateOrderStatus({
+        orderId,
+        order_status: newStatus,
+      });
+      console.log(data);
+      refetch();
+    } catch (error) {
+      console.error("Error updating order status:", error);
+    }
+  };
+
   if (isLoading) return <AdminOrdersSkeleton />;
-  if (error)
-    return (
-      <div className="text-center">An error occurred: {error.message}</div>
-    );
+  if (error) return <div className="text-center">An error occurred :(</div>;
 
   return (
     <div className="container mx-auto p-6">
@@ -26,32 +40,32 @@ function Orders() {
             className="mb-6 border rounded-lg bg-white shadow-md p-6"
           >
             <>
-              {eachOrder.total_order_items.map((eachPizzaDetails) => (
-                <h2
-                  className="text-xl font-bold mb-2"
-                  key={eachPizzaDetails._id}
-                >
+              {eachOrder.total_order_items.map((eachPizzaDetails, index) => (
+                <h2 className="text-xl font-bold mb-2" key={index}>
                   {eachPizzaDetails.PizzaName}
                 </h2>
               ))}
             </>
-            <p className="my-4 flex items-center">
+            <div className="my-4 flex items-center">
               <span className="font-semibold mr-2">Order ID:</span>
               <span>{eachOrder.orderId}</span>
               <span className="ml-4 font-semibold mr-2">Status:</span>
               <select
                 value={eachOrder.order_status}
-                className="ml-2 p-2 border rounded hover:cursor-pointer bg-gray-500 text-white"
+                onChange={(e) =>
+                  handleStatusChange(eachOrder._id, e.target.value)
+                }
+                className="ml-2 p-1 border rounded hover:cursor-pointer bg-black text-white"
               >
-                <option value="orderSuccess">Order Success</option>
-                <option value="orderReceived">Order Received</option>
-                <option value="inKitchen">In the kitchen</option>
-                <option value="OutForDelivered">Out for Delivery</option>
-                <option value="DeliveredSuccessfully">
-                  Delivered Successfully
+                <option value="order_success">ORDER SUCCESS</option>
+                <option value="order_received">ORDER RECEIVED</option>
+                <option value="in_the_kitchen">IN THE KITCHEN</option>
+                <option value="Out_for_delivery">OUT FOR DELIVERY</option>
+                <option value="delivered_successfully">
+                  DELIVERED SUCCESSFULLY
                 </option>
               </select>
-            </p>
+            </div>
             <div>
               <span className="font-semibold">CUSTOMER ID: </span>
               <span>{eachOrder.userId}</span>
@@ -64,14 +78,16 @@ function Orders() {
               <span className="font-semibold">CUSTOMER EMAIL:</span>
               <span className="ml-4">{eachOrder.customer_details.email}</span>
             </div>
-            <p className="my-1">
+            <div className="my-1">
               <span className="font-semibold">ADDRESS: </span>
-              <span className="">{eachOrder.customer_details.address}</span>
-              <div>
+              <span>{eachOrder.customer_details.address}</span>
+              <div className="my-1">
                 <span className="font-semibold">PHONE NO -</span>
                 <span className="ml-4">{eachOrder.customer_details.phone}</span>
               </div>
-            </p>
+              <span className="font-semibold text-sm">ORDER TOTAL AMOUNT:</span>
+              <span>{eachOrder.totalOrderAmount}</span>
+            </div>
           </div>
         ))}
       </div>
