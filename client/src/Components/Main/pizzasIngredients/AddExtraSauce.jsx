@@ -1,55 +1,35 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import { Error } from "../../../../utils/Error";
+import { useDispatch, useSelector } from "react-redux";
 import { MiniLoader } from "../../../../utils/MiniLoader";
 import { useGetAllSauceTypeQuery } from "../../../apis/ingredientsAPI";
-import { setSauceId, updateTotalPrice } from "../../../slices/orderSlice";
-import { useEffect, useState } from "react";
+import { setSauce, updateTotalPrice } from "../../../slices/orderSlice";
 
 function AddExtraSauce() {
-  const [selectedSauce, setSelectedSauce] = useState();
   const dispatch = useDispatch();
+  const [selectedSauce, setSelectedSauce] = useState();
   const currentTotalPrice = useSelector((state) => state.order.totalPrice);
-  const selectedSauceId = useSelector((state) => state.order.sauceId);
-
+  const selectedSauces = useSelector((state) => state.order.sauce_name);
   const {
     data: extraSauce,
     isLoading: isExtraSauceLoading,
     error,
   } = useGetAllSauceTypeQuery();
-
-  function getSelectedSaucePrice() {
-    return selectedSauceId ? getSaucePriceById(selectedSauceId) : 0;
-  }
-
-  function getSaucePriceById(id) {
-    return extraSauce.find((sauce) => sauce._id === id)?.price || 0;
-  }
-
-  useEffect(() => {
-    if (selectedSauceId) {
-      dispatch(
-        updateTotalPrice(
-          currentTotalPrice -
-            getSelectedSaucePrice() +
-            getSaucePriceById(selectedSauceId)
-        )
-      );
-    }
-  }, [selectedSauceId, currentTotalPrice, dispatch, extraSauce]);
-
-  function handleAddExtraSauce(sauceId) {
-    dispatch(setSauceId(sauceId));
-    setSelectedSauce(sauceId);
-    dispatch(
-      updateTotalPrice(
-        currentTotalPrice - getSelectedSaucePrice() + getSaucePriceById(sauceId)
-      )
-    );
-  }
-
   if (isExtraSauceLoading) return <MiniLoader />;
   if (error) return <Error />;
 
+  function handleAddExtraSauce(sauceId, sauceName, saucePrice) {
+    dispatch(setSauce(sauceName));
+    setSelectedSauce(sauceId);
+    dispatch(
+      updateTotalPrice(currentTotalPrice - getSelectedSaucePrice() + saucePrice)
+    );
+  }
+  function getSelectedSaucePrice() {
+    return selectedSauces
+      ? extraSauce.find((sauce) => sauce.name === selectedSauces)?.price || 0
+      : 0;
+  }
   return (
     <>
       <ul className="my-2">
@@ -57,7 +37,9 @@ function AddExtraSauce() {
           {extraSauce.map((sauce) => (
             <li
               key={sauce._id}
-              onClick={() => handleAddExtraSauce(sauce._id)}
+              onClick={() =>
+                handleAddExtraSauce(sauce._id, sauce.name, sauce.price)
+              }
               className={`flex justify-between items-center hover:cursor-pointer mb-3 ${
                 sauce._id === selectedSauce ? "bg-yellow-100" : ""
               }`}

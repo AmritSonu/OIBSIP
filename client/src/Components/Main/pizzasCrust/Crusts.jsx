@@ -1,37 +1,34 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Error } from "../../../../utils/Error";
+import { useDispatch, useSelector } from "react-redux";
 import { MiniLoader } from "../../../../utils/MiniLoader";
 import { useGetAllBaseTypeQuery } from "../../../apis/ingredientsAPI";
-import { setCrustId, updateTotalPrice } from "../../../slices/orderSlice";
+import { setCrust, updateTotalPrice } from "../../../slices/orderSlice";
 const Crusts = () => {
-  const [selectedCrust, setSelectedCrust] = useState(null);
   const dispatch = useDispatch();
+  const [selectedCrust, setSelectedCrust] = useState(null);
+  const newTotalPrice = useSelector((state) => state.order.totalPrice);
   const {
     data: crustTypes,
     isLoading: isCrustLoading,
     error,
   } = useGetAllBaseTypeQuery();
 
-  const newTotalPrice = useSelector((state) => state.order.totalPrice);
-
-  // Handling Crust Selection by Customer...
-  const handleCrustSelection = (crustId, crustPrice) => {
-    dispatch(setCrustId(crustId));
-    const totalPriceUpdate = newTotalPrice + crustPrice;
-    dispatch(updateTotalPrice(totalPriceUpdate));
-    setSelectedCrust(crustId);
-  };
-
-  // Handling API Error And Loading....
   if (isCrustLoading) return <MiniLoader />;
   if (error) return <Error />;
+
+  const handleCrustSelection = (crustName, crustPrice) => {
+    dispatch(setCrust(crustName));
+    const totalPriceUpdate = newTotalPrice + crustPrice;
+    dispatch(updateTotalPrice(totalPriceUpdate));
+    setSelectedCrust(crustName);
+  };
 
   return (
     <>
       {crustTypes.map((crust) => (
         <div
-          onClick={() => handleCrustSelection(crust._id, crust.price)}
+          onClick={() => handleCrustSelection(crust.name, crust.price)}
           key={crust._id}
           className={`flex justify-between items-center hover:cursor-pointer ${
             crust._id === selectedCrust ? "bg-yellow-100" : ""

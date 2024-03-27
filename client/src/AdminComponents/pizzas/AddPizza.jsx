@@ -16,10 +16,13 @@ function AddPizza() {
   };
 
   const handleToppingsChange = (e) => {
-    const { value } = e.target;
+    const selectedOptions = Array.from(
+      e.target.selectedOptions,
+      (option) => option.value
+    );
     setPizza((prevPizza) => ({
       ...prevPizza,
-      toppings: [...prevPizza.toppings, value],
+      toppings: selectedOptions,
     }));
   };
 
@@ -59,14 +62,17 @@ function AddPizza() {
           >
             Crust
           </label>
-          <input
-            type="text"
+          <select
             id="crust"
             name="crust"
             value={pizza.crust}
             onChange={handleInputChange}
             className="mt-1 p-2 w-full border rounded-md"
-          />
+          >
+            <option value="thin">Thin Crust</option>
+            <option value="thick">Thick Crust</option>
+            <option value="stuffed">Stuffed Crust</option>
+          </select>
         </div>
 
         <div className="mb-4">
@@ -76,14 +82,17 @@ function AddPizza() {
           >
             Sauce
           </label>
-          <input
-            type="text"
+          <select
             id="sauce"
             name="sauce"
             value={pizza.sauce}
             onChange={handleInputChange}
             className="mt-1 p-2 w-full border rounded-md"
-          />
+          >
+            <option value="tomato">Tomato Sauce</option>
+            <option value="white">White Sauce</option>
+            <option value="bbq">BBQ Sauce</option>
+          </select>
         </div>
 
         <div className="mb-4">
@@ -93,14 +102,17 @@ function AddPizza() {
           >
             Cheese
           </label>
-          <input
-            type="text"
+          <select
             id="cheese"
             name="cheese"
             value={pizza.cheese}
             onChange={handleInputChange}
             className="mt-1 p-2 w-full border rounded-md"
-          />
+          >
+            <option value="mozzarella">Mozzarella</option>
+            <option value="cheddar">Cheddar</option>
+            <option value="parmesan">Parmesan</option>
+          </select>
         </div>
 
         <div className="mb-4">
@@ -110,14 +122,18 @@ function AddPizza() {
           >
             Toppings
           </label>
-          <input
-            type="text"
+          <select
+            multiple
             id="toppings"
             name="toppings"
-            placeholder="Add Toppings (comma-separated)"
             onChange={handleToppingsChange}
             className="mt-1 p-2 w-full border rounded-md"
-          />
+          >
+            <option value="pepperoni">Pepperoni</option>
+            <option value="mushrooms">Mushrooms</option>
+            <option value="onions">Onions</option>
+            <option value="sausage">Sausage</option>
+          </select>
         </div>
 
         <button

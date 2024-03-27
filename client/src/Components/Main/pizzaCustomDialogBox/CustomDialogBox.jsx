@@ -1,18 +1,18 @@
+import { useEffect } from "react";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { Error } from "../../../../utils/Error";
 import { PizzaCustomCrust } from "../pizzasCrust/MainCustomBaseAndCrust";
 import { MainPizzasIngredients } from "../pizzasIngredients/MainPizzasIngredients";
 import { useGetPizzaByIdQuery } from "../../../apis/pizzasAPI";
-import { Error } from "../../../../utils/Error";
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
 import { MiniLoader } from "../../../../utils/MiniLoader";
-import { useSelector } from "react-redux";
 
 const CustomDialogBox = ({ isOpen, handleClose }) => {
   const location = useLocation();
   const { state } = location;
   const newPizzaId = state && state.pizzaId;
-  const isCrustSelected = useSelector((state) => state.order.crustId);
+  const isCrustSelected = useSelector((state) => state.order.crust_name);
   const {
     data: currentSelectedPizza,
     error,

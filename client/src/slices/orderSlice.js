@@ -1,13 +1,12 @@
-// orderSlice.js
 import { createSlice } from "@reduxjs/toolkit";
+
 const initialState = {
   PizzaName: "",
   pizzaId: null,
-  crustId: null,
-  sauceId: null,
-  cheeseId: null,
-  toppingIds: [],
-  toppings: [],
+  crust_name: null,
+  sauce_name: null,
+  cheese_name: null,
+  topping_names: [],
   totalPrice: 0,
   pizzaSize: "normal",
 };
@@ -22,40 +21,34 @@ const orderSlice = createSlice({
     setPizzaId: (state, action) => {
       state.pizzaId = action.payload;
     },
-    setCrustId: (state, action) => {
-      state.crustId = action.payload;
+    setCrust: (state, action) => {
+      state.crust_name = action.payload;
     },
-    setSauceId: (state, action) => {
-      state.sauceId = action.payload;
+    setSauce: (state, action) => {
+      state.sauce_name = action.payload;
     },
-    setCheeseId: (state, action) => {
-      state.cheeseId = action.payload;
+    setCheese: (state, action) => {
+      state.cheese_name = action.payload;
     },
-    addToppingId: (state, action) => {
-      const { id, price, name } = action.payload;
-      const newToppingId = id;
-      if (state.toppingIds.length < 4) {
-        const toppingCount = state.toppingIds.filter(
-          (id) => id === newToppingId
+    addToppingName: (state, action) => {
+      const { topping_name, topping_price } = action.payload;
+      // console.log(topping_name, topping_price);
+      if (state.topping_names.length < 4) {
+        const toppingCount = state.topping_names.filter(
+          (name) => name === topping_name
         ).length;
         if (toppingCount < 1) {
-          state.toppingIds.push(newToppingId);
-          state.toppings.push({ id, name, price }); // Add topping details
-          state.totalPrice += price; // Add the price to the total
+          state.topping_names.push(topping_name);
+          state.totalPrice += topping_price;
         }
       }
     },
-    removeToppingId: (state, action) => {
-      const removedToppingId = action.payload;
-      const removedToppingIndex = state.toppings.findIndex(
-        (topping) => topping.id === removedToppingId
-      );
-
-      if (removedToppingIndex !== -1) {
-        const removedTopping = state.toppings[removedToppingIndex];
-        state.toppings.splice(removedToppingIndex, 1);
-        state.toppingIds = state.toppings.map((topping) => topping.id);
-        state.totalPrice -= removedTopping.price;
+    removeToppingName: (state, action) => {
+      const { topping_name, topping_price } = action.payload;
+      const index = state.topping_names.indexOf(topping_name);
+      if (index !== -1) {
+        state.topping_names.splice(index, 1);
+        state.totalPrice -= topping_price;
       }
     },
     updateTotalPrice: (state, action) => {
@@ -71,17 +64,18 @@ const orderSlice = createSlice({
 export const {
   setPizzaName,
   setPizzaId,
-  setCrustId,
-  setSauceId,
-  setCheeseId,
-  addToppingId,
-  removeToppingId,
+  setCrust,
+  setSauce,
+  setCheese,
+  addToppingName,
+  removeToppingName,
   updateTotalPrice,
   setPizzaSize,
   resetOrder,
 } = orderSlice.actions;
 
 export const selectOrder = (state) => state.order;
-export const selectCheeseId = (state) => state.order.cheeseId;
+export const selectcheese_name = (state) => state.order.cheese_name;
+export const selectsauce_name = (state) => state.order.sauce_name;
 export const totalPizzaPrice = (state) => state.order.totalPrice;
 export default orderSlice.reducer;

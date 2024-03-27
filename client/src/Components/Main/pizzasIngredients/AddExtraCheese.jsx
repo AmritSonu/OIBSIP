@@ -1,15 +1,12 @@
-// AddExtraCheese.js
-import { useDispatch, useSelector } from "react-redux";
 import { Error } from "../../../../utils/Error";
+import { useDispatch, useSelector } from "react-redux";
 import { MiniLoader } from "../../../../utils/MiniLoader";
 import { useGetAllCheeseTypeQuery } from "../../../apis/ingredientsAPI";
-import { setCheeseId, updateTotalPrice } from "../../../slices/orderSlice";
-
+import { setCheese, updateTotalPrice } from "../../../slices/orderSlice";
 function AddExtraCheese() {
-  const currentTotalPrice = useSelector((state) => state.order.totalPrice);
-  const selectedCheeseId = useSelector((state) => state.order.cheeseId);
-
   const dispatch = useDispatch();
+  const currentTotalPrice = useSelector((state) => state.order.totalPrice);
+  const selectedCheese = useSelector((state) => state.order.cheese_name);
   const {
     data: extraCheese,
     isLoading: isCheeseLoading,
@@ -19,23 +16,21 @@ function AddExtraCheese() {
   if (isCheeseLoading) return <MiniLoader />;
   if (error) return <Error />;
 
-  function handleSelectCheese(newCheeseId, newCheesePrice) {
-    dispatch(setCheeseId(newCheeseId));
+  function handleSelectCheese(newCheeseName, newCheesePrice) {
+    dispatch(setCheese(newCheeseName));
     dispatch(
       updateTotalPrice(
         currentTotalPrice - getSelectedCheesePrice() + newCheesePrice
       )
     );
   }
-
+  
   function getSelectedCheesePrice() {
-    // Return 0 if no cheese is selected, otherwise return the price of the selected cheese
-    return selectedCheeseId
-      ? extraCheese.find((cheese) => cheese._id === selectedCheeseId)?.price ||
-          0
+    return selectedCheese
+      ? extraCheese.find((cheese) => cheese.name === selectedCheese)?.price || 0
       : 0;
   }
-
+  
   return (
     <ul className="pt-3">
       {extraCheese.map((option) => (
@@ -49,8 +44,8 @@ function AddExtraCheese() {
               id={`extraCheeseOption${option.id}`}
               name="extraCheese"
               value={option.id}
-              onChange={() => handleSelectCheese(option._id, option.price)}
-              checked={option._id === selectedCheeseId}
+              onChange={() => handleSelectCheese(option.name, option.price)}
+              checked={option.name === selectedCheese}
             />
             <span className="text-gray-700 font-semibold">{option.name}</span>
           </label>
@@ -62,5 +57,4 @@ function AddExtraCheese() {
     </ul>
   );
 }
-
 export { AddExtraCheese };

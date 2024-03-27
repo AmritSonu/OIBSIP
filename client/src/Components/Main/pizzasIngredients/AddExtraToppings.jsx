@@ -1,53 +1,56 @@
-// AddExtraToppings.js
-import { useDispatch, useSelector } from "react-redux";
 import { Error } from "../../../../utils/Error";
+import { useDispatch, useSelector } from "react-redux";
 import { MiniLoader } from "../../../../utils/MiniLoader";
 import { useGetAllToppingQuery } from "../../../apis/ingredientsAPI";
-import { addToppingId, removeToppingId } from "../../../slices/orderSlice";
+import { addToppingName, removeToppingName } from "../../../slices/orderSlice";
 
 function AddExtraToppings() {
-  const selectedToppings = useSelector((state) => state.order.toppingIds);
   const dispatch = useDispatch();
-
+  const selectedToppings = useSelector((state) => state.order.topping_names);
   const {
     data: extraToppings,
     isLoading: isextraToppingsLoading,
     error,
   } = useGetAllToppingQuery();
 
-  const handleAddExtraToppings = (topping) => {
-    const toppingCount = selectedToppings.filter(
-      (id) => id === topping._id
-    ).length;
+  if (isextraToppingsLoading) return <MiniLoader />;
+  if (error) return <Error />;
 
-    if (toppingCount < 1) {
-      dispatch(
-        addToppingId({
-          id: topping._id,
-          price: topping.price,
-          name: topping.name,
-        })
-      );
-    } else {
-      console.log("You already selected this topping ");
+  const handleAddExtraToppings = (topping_name, topping_price) => {
+    if (selectedToppings.length < 4) {
+      const toppingCount = selectedToppings.filter(
+        (name) => name === topping_name
+      ).length;
+      if (toppingCount < 1) {
+        dispatch(
+          addToppingName({
+            topping_name: topping_name,
+            topping_price: topping_price,
+          })
+        );
+      } else {
+        console.log("You already selected this topping ");
+      }
     }
   };
 
-  const handleRemoveTopping = (toppingId) => {
-    dispatch(removeToppingId(toppingId));
+  const handleRemoveTopping = (topping_name, topping_price) => {
+    dispatch(
+      removeToppingName({
+        topping_name: topping_name,
+        topping_price: topping_price,
+      })
+    );
   };
-
-  if (isextraToppingsLoading) return <MiniLoader />;
-  if (error) return <Error />;
 
   return (
     <>
       {extraToppings.map((topping) => (
         <div className="my-2 relative" key={topping._id}>
           <ul
-            onClick={() => handleAddExtraToppings(topping)}
+            onClick={() => handleAddExtraToppings(topping.name, topping.price)}
             className={`px-4 py-2 ${
-              selectedToppings.includes(topping._id) ? "bg-yellow-100" : ""
+              selectedToppings.includes(topping.name) ? "bg-yellow-100" : ""
             }  `}
           >
             <li
@@ -57,7 +60,7 @@ function AddExtraToppings() {
                   : ""
               }
                   ${
-                    selectedToppings.includes(topping._id)
+                    selectedToppings.includes(topping.name)
                       ? "text-opacity-95 font-semibold"
                       : ""
                   }
@@ -78,7 +81,7 @@ function AddExtraToppings() {
                     : ""
                 } 
                   ${
-                    selectedToppings.includes(topping._id)
+                    selectedToppings.includes(topping.name)
                       ? "text-opacity-95 font-semibold"
                       : ""
                   }`}
@@ -87,10 +90,10 @@ function AddExtraToppings() {
               </div>
             </li>
           </ul>
-          {selectedToppings.includes(topping._id) && (
+          {selectedToppings.includes(topping.name) && (
             <button
               className="bg-gray-400 rounded-full font-thin absolute top-5 -right-6"
-              onClick={() => handleRemoveTopping(topping._id)}
+              onClick={() => handleRemoveTopping(topping.name, topping.price)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -18,8 +18,8 @@ function AdminLayout() {
           </NavLink>
         </div>
         <nav>
-          <ul>
-            <li className="mb-2">
+          <ul className="flex flex-col gap-6">
+            <li>
               <NavLink
                 className={({ isActive }) =>
                   isActive
@@ -31,7 +31,7 @@ function AdminLayout() {
                 Orders
               </NavLink>
             </li>
-            <li className="mb-2">
+            <li>
               <NavLink
                 to="/admin/ingredients"
                 className={({ isActive }) =>
@@ -43,7 +43,7 @@ function AdminLayout() {
                 Ingredients
               </NavLink>
             </li>
-            <li className="mb-2">
+            <li>
               <NavLink
                 to="/admin/add-pizza"
                 className={({ isActive }) =>
@@ -55,7 +55,7 @@ function AdminLayout() {
                 Add Pizza
               </NavLink>
             </li>
-            <li className="mb-2">
+            {/* <li className="mb-2">
               <NavLink
                 to="/admin/edit-pizza"
                 className={({ isActive }) =>
@@ -66,15 +66,12 @@ function AdminLayout() {
               >
                 Edit Pizza
               </NavLink>
-            </li>
-            {/* Add more routes as needed */}
+            </li> */}
           </ul>
         </nav>
       </aside>
-
       {/* Main Content */}
       <div className="flex-1 p-6 overflow-y-auto">
-        {/* Your content goes here */}
         <Outlet />
       </div>
     </div>
