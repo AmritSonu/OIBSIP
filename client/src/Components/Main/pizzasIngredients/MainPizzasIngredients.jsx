@@ -3,21 +3,48 @@ import { useDispatch, useSelector } from "react-redux";
 import { AddExtraCheese } from "./AddExtraCheese";
 import { AddExtraSauce } from "./AddExtraSauce";
 import { AddExtraToppings } from "./AddExtraToppings";
-import { addToBasket } from "../../../slices/basketSlice";
 import {
   resetOrder,
   selectOrder,
   totalPizzaPrice,
 } from "../../../slices/orderSlice";
+import { useCart } from "../../../ContextAPIs/useCartContext";
 function MainPizzasIngredients() {
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
   const selectedOrder = useSelector(selectOrder);
   const orderPrice = useSelector(totalPizzaPrice);
+  const { addToCart } = useCart();
 
   function handleBasketBtn(e) {
     e.preventDefault();
-    dispatch(addToBasket(selectedOrder));
+    const {
+      _id: pizzaId,
+      PizzaName,
+      crust_name,
+      cheese_name,
+      sauce_name,
+      topping_names,
+      totalPrice,
+      pizzaSize,
+    } = selectedOrder;
+
+    const order = {
+      _id: pizzaId,
+      PizzaName: PizzaName,
+      customizations: {
+        crust_name: crust_name,
+        cheese_name: cheese_name,
+        sauce_name: sauce_name,
+        topping_names: topping_names,
+      },
+      pizzaSize: pizzaSize,
+      totalPrice: totalPrice,
+    };
+    console.log(order);
+    addToCart(order);
     navigate(-1);
     dispatch(resetOrder());
   }

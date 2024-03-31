@@ -11,7 +11,6 @@ import {
   setPizzaSize,
   updateTotalPrice,
 } from "../../../slices/orderSlice";
-import { addToBasket } from "../../../slices/basketSlice";
 import { useCart } from "../../../ContextAPIs/useCartContext";
 
 const sizes = [
@@ -54,7 +53,6 @@ function PizzaCardItem({ handleButtonClick }) {
   };
 
   const updateTotalPricePizza = (totalPrice, pizzaId, pizzaSize, PizzaName) => {
-    // Dispatch the action to update the total price
     const pizzaDetails = {
       _id: pizzaId,
       PizzaName: PizzaName,
@@ -65,7 +63,7 @@ function PizzaCardItem({ handleButtonClick }) {
     dispatch(setPizzaId(pizzaId));
     dispatch(setPizzaSize(pizzaSize));
     dispatch(setPizzaName(PizzaName));
-    dispatch(addToBasket(pizzaDetails));
+    // dispatch(addToBasket(pizzaDetails));
     addToCart(pizzaDetails);
   };
 

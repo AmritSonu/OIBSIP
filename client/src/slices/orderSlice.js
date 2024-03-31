@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  _id: null,
   PizzaName: "",
-  pizzaId: null,
   crust_name: null,
   sauce_name: null,
   cheese_name: null,
@@ -19,7 +19,7 @@ const orderSlice = createSlice({
       state.PizzaName = action.payload;
     },
     setPizzaId: (state, action) => {
-      state.pizzaId = action.payload;
+      state._id = action.payload;
     },
     setCrust: (state, action) => {
       state.crust_name = action.payload;

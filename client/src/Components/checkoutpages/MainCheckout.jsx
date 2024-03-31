@@ -3,25 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { calculateTotals } from "../../../utils/calculateTotals";
 import { useCart } from "../../ContextAPIs/useCartContext";
 import { CheckoutForm } from "./CheckoutForm";
-import { useDispatch } from "react-redux";
-import { addOrder, setTotalPrice } from "../../slices/finalorderSlice";
 const MainCheckout = () => {
-  const dispatach = useDispatch();
+  const navigate = useNavigate();
   const { cart } = useCart();
   const resturent_fees = 18;
-  const navigate = useNavigate();
   const { subtotal, total: amount } = calculateTotals(cart, resturent_fees);
-  dispatach(setTotalPrice(amount));
-  dispatach(addOrder(cart));
-
-  const storedOrderInfo = localStorage.getItem("orderInformation");
-  const customerOrder = JSON.parse(storedOrderInfo);
-
   const userInfo = localStorage.getItem("user_info");
   const userId = JSON.parse(userInfo);
-  async function checkoutHandler(customerDetails) {
-    console.log(userId);
-    console.log(customerOrder);
+
+  async function checkoutHandler(customerOrder) {
+    const { customer_details, totalPrice: amount } = customerOrder;
+    console.log("customerOrder", customerOrder);
     try {
       const {
         data: { key },
@@ -36,18 +28,18 @@ const MainCheckout = () => {
           key,
           amount: order.amount,
           currency: "INR",
-          name: customerDetails.fullname,
+          name: customer_details.fullname,
           description: "Pizza Delivery Payments",
           image: "https://picsum.photos/200",
           order_id: order.id,
           callback_url: "http://localhost:3000/payment/payment_verification",
           prefill: {
-            name: customerDetails.fullname,
-            email: customerDetails.email,
-            contact: customerDetails.phone,
+            name: customer_details.fullname,
+            email: customer_details.email,
+            contact: customer_details.phone,
           },
           notes: {
-            address: customerDetails.address,
+            address: customer_details.address,
           },
           theme: {
             color: "#F4C430",
@@ -56,7 +48,6 @@ const MainCheckout = () => {
         const razor = new window.Razorpay(options);
         razor.open();
       }
-      // console.log(order);
     } catch (error) {
       console.error("Error during checkout:", error);
     }

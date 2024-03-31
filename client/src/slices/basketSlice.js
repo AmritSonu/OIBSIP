@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  pizzas: [], // Array to hold selected pizzas in the basket
+  pizzas: [],
 };
 
 const basketSlice = createSlice({

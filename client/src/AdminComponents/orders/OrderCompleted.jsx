@@ -13,8 +13,14 @@ function OrderCompleted() {
   );
 
   return (
-    <div className="mt-8">
-      <h1 className="text-3xl font-bold mb-4">All Completed Orders</h1>
+    <div className="my-10 ">
+      <div className="flex justify-between my-5">
+        <p className="text-3xl font-bold mb-4">All Completed Orders</p>
+        <p className="text-lg">
+          Total orders:{" "}
+          <span className="font-semibold">{orders.completedOrders.length}</span>
+        </p>
+      </div>
       <div>
         <ul className="space-y-4">
           {orders.completedOrders.map((order) => (

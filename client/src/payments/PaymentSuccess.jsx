@@ -54,9 +54,9 @@ const PaymentSuccess = () => {
         </button>
         <button
           onClick={handleOrderList}
-          className="mt-6 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:border-green-300 animate__animated animate__slideInUp animate__pulse"
+          className="ml-1 mt-6 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:border-green-300 animate__animated animate__slideInUp animate__pulse"
         >
-          Continue Shopping
+          orders
         </button>
 
         <div className="animate__animated animate__slideInRight animate__delay-1s">

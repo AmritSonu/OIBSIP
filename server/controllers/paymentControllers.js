@@ -12,7 +12,12 @@ const getOrder = async (req, res) => {
     key_secret: process.env.RAZORPAY_SECRET_KEY,
   });
   const { amount, customerOrder, userId } = req.body.razor;
-  const { order: customerOrderedItems, customer, totalPrice } = customerOrder;
+  const {
+    order: customerOrderedItems,
+    customer_details: customerDetails,
+    totalPrice,
+  } = customerOrder;
+  // console.log("customerOrder", customerOrder);
 
   try {
     const options = {
@@ -25,7 +30,7 @@ const getOrder = async (req, res) => {
       orderId: order.id,
       order_status: "order_success",
       total_order_items: customerOrderedItems,
-      customer_details: customer,
+      customer_details: customerDetails,
       totalOrderAmount: totalPrice,
     });
     await Payment.create({

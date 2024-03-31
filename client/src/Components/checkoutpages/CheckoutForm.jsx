@@ -1,30 +1,29 @@
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setCustomerDetails } from "../../slices/finalorderSlice";
+import { useCart } from "../../ContextAPIs/useCartContext";
+import { calculateTotals } from "../../../utils/calculateTotals";
 
 function CheckoutForm({ checkoutPayAndPlace }) {
+  const { cart } = useCart();
+  const resturent_fees = 18;
+  const { total: amount } = calculateTotals(cart, resturent_fees);
   const dispatch = useDispatch();
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm();
-  const finalOrderState = useSelector((state) => state.finalorder);
-  const { order_status, order, totalPrice } = finalOrderState;
-  // console.log(orderInformation);
-  const onSubmit = (data) => {
-    // Handle form submission
-    checkoutPayAndPlace(data);
+  const onSubmit = async (data) => {
     dispatch(setCustomerDetails(data));
-    const orderInformation = {
-      order_status,
-      order,
-      customer: data,
-      totalPrice,
+    const customerorder = {
+      order_status: "pending...",
+      order: cart,
+      customer_details: data,
+      totalPrice: amount,
     };
-
-    localStorage.setItem("orderInformation", JSON.stringify(orderInformation));
+    checkoutPayAndPlace(customerorder);
   };
 
   const validateAddress = (value) => {
@@ -139,5 +138,4 @@ function CheckoutForm({ checkoutPayAndPlace }) {
 CheckoutForm.propTypes = {
   checkoutPayAndPlace: PropTypes.func.isRequired,
 };
-
 export { CheckoutForm };
