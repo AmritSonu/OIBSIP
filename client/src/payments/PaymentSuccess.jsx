@@ -48,13 +48,13 @@ const PaymentSuccess = () => {
         </p>
         <button
           onClick={handlebackButton}
-          className="mt-6 bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:border-green-300 animate__animated animate__slideInUp animate__pulse"
+          className="mt-6 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:border-green-300 animate__animated animate__slideInUp animate__pulse"
         >
           Continue Shopping
         </button>
         <button
           onClick={handleOrderList}
-          className="ml-1 mt-6 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:border-green-300 animate__animated animate__slideInUp animate__pulse"
+          className="ml-1 mt-6 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:border-green-300 animate__animated animate__slideInUp animate__pulse"
         >
           orders
         </button>

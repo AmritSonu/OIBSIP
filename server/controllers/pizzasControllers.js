@@ -1,5 +1,6 @@
-import { Pizza } from "../Models/PizzaModel.js";
 import mongoose from "mongoose";
+import { Pizza } from "../Models/PizzaModel.js";
+import { Order } from "../Models/orderModel.js";
 const createPizza = async (req, res) => {
   try {
     const {
@@ -106,4 +107,37 @@ const deletePizza = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-export { createPizza, getPizzas, getSinglePizza, deletePizza };
+
+const pizzaStatics = async (req, res) => {
+  try {
+    const totalOrders = await Order.countDocuments();
+    const orders = await Order.find();
+    const totalRevenue = orders.reduce(
+      (acc, order) => acc + order.totalOrderAmount,
+      0
+    );
+    const totalOrderValue = totalRevenue;
+    const averageOrderValue = totalRevenue / totalOrders;
+    const pizzas = orders.flatMap((order) =>
+      order.total_order_items.map((item) => item.PizzaName)
+    );
+    const pizzaCountMap = pizzas.reduce((acc, pizza) => {
+      acc[pizza] = (acc[pizza] || 0) + 1;
+      return acc;
+    }, {});
+    const mostPopularPizza = Object.keys(pizzaCountMap).reduce((a, b) =>
+      pizzaCountMap[a] > pizzaCountMap[b] ? a : b
+    );
+
+    res.json({
+      totalOrders,
+      totalRevenue,
+      averageOrderValue,
+      mostPopularPizza,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+export { createPizza, getPizzas, getSinglePizza, deletePizza, pizzaStatics };

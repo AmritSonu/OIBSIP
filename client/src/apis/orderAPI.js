@@ -21,6 +21,9 @@ export const ordersApi = createApi({
     getDeliveredOrders: builder.query({
       query: () => "get_all_delivered_orders",
     }),
+    getOrderStatics: builder.query({
+      query: () => "order_statics",
+    }),
   }),
 });
 
@@ -29,4 +32,5 @@ export const {
   useGetAllOrdersQuery,
   useUpdateOrderStatusMutation,
   useGetDeliveredOrdersQuery,
+  useGetOrderStaticsQuery,
 } = ordersApi;
