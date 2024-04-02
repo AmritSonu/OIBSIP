@@ -62,16 +62,20 @@ const login = asyncHandler(async (req, res) => {
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1h",
+        expiresIn: "6h",
       }
     );
     // COOKIES
     if (req.cookies[`${user.userId}`]) {
       req.cookies[`${user.userId}`] = "";
     }
+    // Calculate expiration time for the cookie (6 hours from now)
+    const expirationTime = new Date();
+    expirationTime.setTime(expirationTime.getTime() + 6 * 60 * 60 * 1000);
+
     res.cookie(String(user.userId), jwtToken, {
       path: "/",
-      expires: new Date(Date.now() + 1000 * 30),
+      expires: expirationTime,
       httpOnly: true,
       sameSite: "lax",
     });
@@ -129,32 +133,21 @@ const users = asyncHandler(async (req, res) => {
     });
   }
 });
-
 // LOGOUT USER
-const logout = (req, res, next) => {
-  // retrieve cookies from headers
+const logout = (req, res) => {
   const cookies = req.headers.cookie;
-  // extract a token
   const prevToken = cookies.split("=")[1];
-
   if (!prevToken) {
     return res.status(400).json({ message: "Couldn't find token" });
   }
-
-  // verify the token
-
-  jwt.verify(String(prevToken), process.env.JWT_SECRET_KEY, (err, user) => {
+  jwt.verify(String(prevToken), process.env.JWT_SECRET, (err, user) => {
     if (err) {
       console.log(err);
       return res.status(403).json({ message: "Authentication failed" });
     }
-    // res.clearCookie(`${user.userId}`);
-    res.clearCookie(String(user.userId));
-
+    res.clearCookie(`${user.userId}`);
     req.cookies[`${user.userId}`] = "";
-
     return res.status(200).json({ message: "Successfully Logged Out" });
   });
 };
-
 export { register, login, userProfile, users, logout };

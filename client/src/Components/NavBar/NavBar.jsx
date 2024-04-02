@@ -1,19 +1,36 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Logo } from "./Logo";
+import axios from "axios";
 import { useCart } from "../../ContextAPIs/useCartContext";
-import { useAppNavigate } from "../../../utils/useAppNavigate";
+// import { useAppNavigate } from "../../../utils/useAppNavigate";
+import { useLogoutMutation } from "../../apis/authAPI";
 
 function NavBar() {
-  const { goTo } = useAppNavigate();
+  const [{ data, isLoading }] = useLogoutMutation();
+  axios.defaults.withCredentials = true;
+  // const { goTo } = useAppNavigate();
   const { cart } = useCart();
   const [showDropdown, setShowDropdown] = useState(false);
 
+  if (isLoading) {
+    console.log("isLoading...");
+  }
+  if (data) {
+    console.log(data);
+  }
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
-  const handleLogout = () => {
-    goTo("/login");
+  const handleLogout = async () => {
+    try {
+      const res = await axios.post("http://localhost:3000/app/logout", {
+        withCredentials: true,
+      });
+      console.log(res);
+    } catch (error) {
+      console.error("Logout failed:", error.message);
+    }
   };
   return (
     <nav className="bg-white py-4 px-10">
@@ -81,10 +98,3 @@ function NavBar() {
 }
 
 export { NavBar };
-
-// className={({ isActive }) =>
-//               isActive
-//                 ? "text-mainColor-400 transition duration-300 font-bold"
-//                 : "border-b-2 border-white font-semibold"
-//             }
-//             to="/orders"

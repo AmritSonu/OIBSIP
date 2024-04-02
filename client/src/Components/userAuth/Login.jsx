@@ -75,6 +75,7 @@ function Login() {
                 },
               })}
               className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2  ring-gray-900 outline-0"
+              autoComplete="email"
             />
             {errors.email && (
               <p className="text-red-600 text-sm">{errors.email.message}</p>
@@ -103,6 +104,7 @@ function Login() {
                 },
               })}
               className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
+              autoComplete="current-password"
             />
             {errors.password && (
               <p className="text-red-600 text-sm">{errors.password.message}</p>

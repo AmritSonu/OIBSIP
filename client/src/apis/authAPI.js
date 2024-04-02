@@ -34,6 +34,13 @@ export const authApi = createApi({
         method: "GET",
       }),
     }),
+    logout: builder.mutation({
+      query: (credentials) => ({
+        url: "/logout",
+        method: "POST",
+        body: credentials,
+      }),
+    }),
   }),
 });
 
@@ -41,4 +48,5 @@ export const {
   useRegisterMutation,
   useLoginMutation,
   useGetCustomerOrdersQuery,
+  useLogoutMutation,
 } = authApi;
