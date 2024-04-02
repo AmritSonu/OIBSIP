@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 import { useCart } from "../../../ContextAPIs/useCartContext";
 import { calculateTotals } from "../../../../utils/calculateTotals";
 
@@ -8,17 +9,78 @@ function PizzaSelectorBasket() {
   const { cart: basket, removeFromCart } = useCart();
   const { subtotal, total } = calculateTotals(basket, resturent_fees);
 
-  const handleCart = (e) => {
-    e.preventDefault();
+  const handleCart = () => {
     navigate("/checkout");
   };
 
   const handleBasketDeleteItem = (pizzaId) => {
     removeFromCart(pizzaId);
   };
-
   return (
     <div className="border absolute top-20 right-0  md:w-3/12 bg-white sm:w-5/12">
+      <BasketHeader navigate={navigate} />
+      <div className=" lg:shadow-left lg:border-l bg-white ml-auto h-40 overflow-auto">
+        {basket.length === 0 && (
+          <p className="px-4 sm:px-10 pt-5 pb-40">
+            Your basket looks a little empty :(
+          </p>
+        )}
+        {basket.map((eachBasketItem) => (
+          <div
+            className="flex gap-5 justify-between p-2 text-gray-600"
+            key={eachBasketItem._id}
+          >
+            <h1 className="font-semibold text-sm">
+              {eachBasketItem.PizzaName}
+            </h1>
+            <div className="flex w-2/5 justify-between">
+              <span className="font-semibold">
+                ₹ {eachBasketItem.totalPrice}
+              </span>
+              <button
+                className="font-semibold"
+                onClick={() => handleBasketDeleteItem(eachBasketItem._id)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+      {basket.length && (
+        <>
+          <div className="flex flex-col gap-5 justify-between p-5 font-semibold text-gray-700">
+            <span>Sub-total: ₹ {subtotal}</span>
+            <span>Resturent Additional Fees - ₹ {resturent_fees}</span>
+            <span>Total - ₹ {total}</span>
+          </div>
+          <button
+            className="p-1 bg-mainAdditionalcolor-150 ml-5 my-2 font-mono px-6"
+            onClick={handleCart}
+          >
+            Conform
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
+function BasketHeader({ navigate }) {
+  return (
+    <>
       <button
         onClick={() => navigate("/pizzas")}
         type="button"
@@ -36,66 +98,10 @@ function PizzaSelectorBasket() {
       <h2 className="text-center px-4 sm:px-10 pt-1 lg:pt-2 pb-2 font-semibold text-lg ">
         Your Basket
       </h2>
-      <div className=" lg:shadow-left lg:border-l bg-white ml-auto h-40 overflow-auto">
-        {basket ? (
-          basket.map((eachBasketItem) => (
-            <div
-              className="flex gap-5 justify-between p-2 text-gray-600"
-              key={eachBasketItem._id}
-            >
-              <h1 className="font-semibold text-sm">
-                {eachBasketItem.PizzaName}
-              </h1>
-              <div className="flex w-2/5 justify-between">
-                <span className="font-semibold">
-                  ₹ {eachBasketItem.totalPrice}
-                </span>
-                <button
-                  className="font-semibold"
-                  onClick={() => handleBasketDeleteItem(eachBasketItem._id)}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p className="px-4 sm:px-10 pt-5 pb-40">
-            Your basket looks a little empty :)
-          </p>
-        )}
-      </div>
-      {basket.length ? (
-        <>
-          <div className="flex flex-col gap-5 justify-between p-5 font-semibold text-gray-700">
-            <span>Sub-total: ₹ {subtotal}</span>
-            <span>Resturent Additional Fees - ₹ {resturent_fees}</span>
-            <span>Total - ₹ {total}</span>
-          </div>
-          <button
-            className="p-1 bg-mainAdditionalcolor-150 ml-5 my-2 font-mono px-6"
-            onClick={handleCart}
-          >
-            Conform
-          </button>
-        </>
-      ) : (
-        ""
-      )}
-    </div>
+    </>
   );
 }
+BasketHeader.propTypes = {
+  navigate: PropTypes.func.isRequired,
+};
 export { PizzaSelectorBasket };

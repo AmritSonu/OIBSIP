@@ -40,7 +40,7 @@ function CheckoutForm({ checkoutPayAndPlace }) {
 
   return (
     <div className="bg-white p-4 rounded-md shadow-md">
-      <h3 className="text-xl font-semibold mb-4">Customer Information</h3>
+      <h3 className="text-2xl font-semibold my-6">Customer Information</h3>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-4">
           <label

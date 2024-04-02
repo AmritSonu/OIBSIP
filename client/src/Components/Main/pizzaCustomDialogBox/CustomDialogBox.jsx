@@ -7,7 +7,7 @@ import { PizzaCustomCrust } from "../pizzasCrust/MainCustomBaseAndCrust";
 import { MainPizzasIngredients } from "../pizzasIngredients/MainPizzasIngredients";
 import { useGetPizzaByIdQuery } from "../../../apis/pizzasAPI";
 import { MiniLoader } from "../../../../utils/MiniLoader";
-
+import pizzahold from "/pizzaHold.png";
 const CustomDialogBox = ({ isOpen, handleClose }) => {
   const location = useLocation();
   const { state } = location;
@@ -33,8 +33,9 @@ const CustomDialogBox = ({ isOpen, handleClose }) => {
   if (!isOpen) {
     return null;
   }
+  console.log(pizzahold);
   return (
-    <div className="fixed inset-0 z-50 overflow-auto bg-gray-800 bg-opacity-50 flex justify-center items-center">
+    <div className="fixed inset-0 z-50 overflow-auto bg-gray-800 bg-opacity-50 flex justify-center items-center ">
       <div className="bg-white  rounded-lg shadow-md max-w-4xl relative">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <button
@@ -59,7 +60,8 @@ const CustomDialogBox = ({ isOpen, handleClose }) => {
           {/* Left side with pizza image */}
           <div className="mb-4 md:mb-0">
             <img
-              src={currentSelectedPizza.pizza_URL}
+              // src={currentSelectedPizza.pizza_URL}
+              src={pizzahold}
               // src="https://api.pizzahut.io/v1/content/en-in/in-1/images/pizza/mazedar-makhni-paneer.cb3150d2be9cb8dcd248be70921c5196.1.jpg?width=800"
               alt="Pizza"
               className="w-full h-full object-cover"

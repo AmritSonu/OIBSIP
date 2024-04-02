@@ -1,10 +1,10 @@
-import { useNavigate, useParams } from "react-router-dom";
 import "animate.css";
-import { useCart } from "../ContextAPIs/useCartContext";
+import { useNavigate, useParams } from "react-router-dom";
+// import { useCart } from "../ContextAPIs/useCartContext";
 
 const PaymentSuccess = () => {
   const navigate = useNavigate();
-  const { clearCart } = useCart();
+  // const { clearCart } = useCart();
   let { id: paymentId } = useParams();
 
   function handlebackButton() {
@@ -12,9 +12,6 @@ const PaymentSuccess = () => {
   }
   function handleOrderList() {
     navigate("/orders");
-  }
-  if (paymentId) {
-    clearCart();
   }
   return (
     <div className="flex items-center justify-center h-screen bg-green-200">
@@ -54,7 +51,7 @@ const PaymentSuccess = () => {
         </button>
         <button
           onClick={handleOrderList}
-          className="ml-1 mt-6 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:border-green-300 animate__animated animate__slideInUp animate__pulse"
+          className=" block ml-1 mt-6 bg-green-400 font-semibold text-white py-2 px-4 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:border-green-300 animate__animated animate__slideInUp animate__pulse"
         >
           orders
         </button>

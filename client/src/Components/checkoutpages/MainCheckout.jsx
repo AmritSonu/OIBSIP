@@ -5,7 +5,7 @@ import { useCart } from "../../ContextAPIs/useCartContext";
 import { CheckoutForm } from "./CheckoutForm";
 const MainCheckout = () => {
   const navigate = useNavigate();
-  const { cart } = useCart();
+  const { cart, clearCart } = useCart();
   const resturent_fees = 18;
   const { subtotal, total: amount } = calculateTotals(cart, resturent_fees);
   const userInfo = localStorage.getItem("user_info");
@@ -24,6 +24,7 @@ const MainCheckout = () => {
         razor: { amount, customerOrder, userId },
       });
       if (order) {
+        clearCart();
         const options = {
           key,
           amount: order.amount,
@@ -69,14 +70,14 @@ const MainCheckout = () => {
       <div className="container mx-auto mt-8">
         <h2 className="text-3xl font-semibold mb-4">Checkout</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-white p-4 rounded-md shadow-md my-10">
-            <h3 className="text-xl font-semibold mb-5">Order Summary</h3>
+          <div className="bg-white rounded-md shadow-sm my-10 p-5">
+            <h3 className="text-2xl font-semibold mb-8">Order Summary</h3>
             <div className="h-3/6 overflow-y-auto">
               {cart &&
                 cart.map((item) => (
                   <div
                     key={item._id}
-                    className="flex justify-between items-center mb-2 w-10/12"
+                    className="flex justify-between gap-1 font-semibold items-center mb-2 w-10/12"
                   >
                     <div className="flex items-center gap-1">
                       <img
@@ -84,20 +85,22 @@ const MainCheckout = () => {
                         alt={item.PizzaName}
                         className="w-16 h-16 object-cover"
                       />
-                      <p>{item.PizzaName}</p>
+                      <p>{item.PizzaName} </p>
                     </div>
                     <p> ₹ {item.totalPrice}</p>
                   </div>
                 ))}
             </div>
             <hr className="my-4" />
-            <span className="font-semibold my-4 text-lg">
-              Extra Restrurent charges : ₹ {resturent_fees}
-            </span>
-            <span className="font-semibold my-4 block">
-              Sub-total : ₹ {subtotal}
-            </span>
-            <span className="font-semibold text-lg">Total: ₹ {amount}</span>
+            <div className="my-10 sm:text-sm flex justify-center flex-col gap-2 font-normal ">
+              <span className="font-semibold text-lg">
+                Extra Restrurent charges: ₹ {resturent_fees}
+              </span>
+              <span className="font-semibold block">
+                Sub-total : ₹ {subtotal}
+              </span>
+              <span className="font-semibold text-lg">Total: ₹ {amount}</span>
+            </div>
           </div>
           <CheckoutForm checkoutPayAndPlace={checkoutHandler} />
         </div>
