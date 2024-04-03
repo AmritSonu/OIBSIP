@@ -19,36 +19,52 @@ import { Login } from "./Components/userAuth/Login";
 import { CustomerOrderHistory } from "./Components/userAuth/authorders/CustomerOrderHistory";
 import { CustomerOrderPreview } from "./Components/userAuth/authorders/CustomerOrderPreview";
 import { CustomerOrderLayout } from "./Components/userAuth/authorders/CustomerOrderLayout";
+import { AuthProvider } from "./ContextAPIs/AuthContext";
+import { ProtectedRoutes } from "./ProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter>
-      <CartProvider>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<HeroPage />} />
-            <Route path="/pizzas/:id?" element={<MainContainer />}>
-              <Route path="basket" element={<PizzaSelectorBasket />} />
+      <AuthProvider>
+        <CartProvider>
+          <Routes>
+            <Route path="/" element={<ProtectedRoutes Component={Layout} />}>
+              <Route index element={<HeroPage />} />
+              <Route path="/pizzas/:id?" element={<MainContainer />}>
+                <Route path="basket" element={<PizzaSelectorBasket />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
             </Route>
-            <Route path="*" element={<NotFound />} />
-          </Route>
-          <Route path="/admin" element={<MainAdmin />}>
-            <Route index element={<PizzaStatistics />} />
-            <Route path="orders" element={<Orders />} />
-            <Route path="ingredients" element={<Ingredients />} />
-            <Route path="add-pizza" element={<AddPizza />} />
-            <Route path="edit-pizza" element={<EditPizza />} />
-          </Route>
-          <Route path="/paymentSuccess/:id" element={<PaymentSuccess />} />
-          <Route path="signup" element={<Signup />} />
-          <Route path="login" element={<Login />} />
-          <Route path="checkout" element={<MainCheckout />} />
-          <Route path="orders" element={<CustomerOrderLayout />}>
-            <Route path="" element={<CustomerOrderHistory />} />
-            <Route path="prev/:id" element={<CustomerOrderPreview />} />
-          </Route>
-        </Routes>
-      </CartProvider>
+            <Route
+              path="/admin"
+              element={<ProtectedRoutes Component={MainAdmin} />}
+            >
+              <Route index element={<PizzaStatistics />} />
+              <Route path="orders" element={<Orders />} />
+              <Route path="ingredients" element={<Ingredients />} />
+              <Route path="add-pizza" element={<AddPizza />} />
+              <Route path="edit-pizza" element={<EditPizza />} />
+            </Route>
+            <Route
+              path="/paymentSuccess/:id"
+              element={<ProtectedRoutes Component={PaymentSuccess} />}
+            />
+            <Route path="signup" element={<Signup />} />
+            <Route path="login" element={<Login />} />
+            <Route
+              path="checkout"
+              element={<ProtectedRoutes Component={MainCheckout} />}
+            />
+            <Route
+              path="orders"
+              element={<ProtectedRoutes Component={CustomerOrderLayout} />}
+            >
+              <Route path="" element={<CustomerOrderHistory />} />
+              <Route path="prev/:id" element={<CustomerOrderPreview />} />
+            </Route>
+          </Routes>
+        </CartProvider>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

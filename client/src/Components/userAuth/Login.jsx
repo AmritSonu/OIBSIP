@@ -1,10 +1,12 @@
 import "animate.css";
 import { useForm } from "react-hook-form";
 import { NavLink } from "react-router-dom";
-// import { useAppNavigate } from "../../../utils/useAppNavigate";
+import { useAppNavigate } from "../../../utils/useAppNavigate";
 import { useLoginMutation } from "../../apis/authAPI";
+import { useAuth } from "../../ContextAPIs/useAuthContext";
 function Login() {
-  // const { goTo } = useAppNavigate();
+  const { goTo } = useAppNavigate();
+  const { login: isLogin } = useAuth();
   const [login, { data: userLogin, isLoading, error }] = useLoginMutation();
   const {
     register,
@@ -19,16 +21,17 @@ function Login() {
     localStorage.setItem("user_info", JSON.stringify(userId));
   }
   const onSubmit = async (data) => {
-    let isLogin = null;
     try {
       const response = await login(data);
-      isLogin = response.data;
+      if (response) {
+        isLogin();
+      }
     } catch (error) {
       console.error("Login error:", error.message);
     }
     if (isLogin) {
       setTimeout(() => {
-        // goTo("/user");
+        goTo("/pizzas");
       }, 2000);
     }
   };

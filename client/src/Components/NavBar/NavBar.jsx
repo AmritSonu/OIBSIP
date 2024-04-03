@@ -3,13 +3,13 @@ import { NavLink } from "react-router-dom";
 import { Logo } from "./Logo";
 import axios from "axios";
 import { useCart } from "../../ContextAPIs/useCartContext";
-// import { useAppNavigate } from "../../../utils/useAppNavigate";
 import { useLogoutMutation } from "../../apis/authAPI";
+import { useAuth } from "../../ContextAPIs/useAuthContext";
 
 function NavBar() {
   const [{ data, isLoading }] = useLogoutMutation();
+  const { logout } = useAuth();
   axios.defaults.withCredentials = true;
-  // const { goTo } = useAppNavigate();
   const { cart } = useCart();
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -28,6 +28,7 @@ function NavBar() {
         withCredentials: true,
       });
       console.log(res);
+      logout();
     } catch (error) {
       console.error("Logout failed:", error.message);
     }
